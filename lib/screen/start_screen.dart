@@ -7,6 +7,18 @@ class StartScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Start Menu'),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.alarm),
+              onPressed: () {
+                print('Alarm');
+              }),
+          IconButton(
+              icon: Icon(Icons.message_sharp),
+              onPressed: () {
+                print('Message');
+              })
+        ],
       ),
       body: Text('Start Screen Welcome'),
     );
