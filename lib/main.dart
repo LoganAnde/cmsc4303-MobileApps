@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lesson0/screen/image_screen.dart';
 import 'package:lesson0/screen/materialdesign_screen.dart';
 import 'package:lesson0/screen/start_screen.dart';
 
@@ -25,7 +26,8 @@ class Lesson1App extends StatelessWidget {
       routes: {
         //Anonymous functions using arrow function notation
         StartScreen.routeName: (context) => StartScreen(),
-        MaterialDesignScreen.routeName: (context) => MaterialDesignScreen()
+        MaterialDesignScreen.routeName: (context) => MaterialDesignScreen(),
+        ImageScreen.routeName: (context) => ImageScreen(),
       },
     );
   }
