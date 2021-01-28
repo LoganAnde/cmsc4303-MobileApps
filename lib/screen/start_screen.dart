@@ -20,7 +20,23 @@ class StartScreen extends StatelessWidget {
               })
         ],
       ),
-      body: Text('Start Screen Welcome'),
+      body: Column(
+        children: [
+          RaisedButton(
+            onPressed: () {
+              print('Menu 1');
+            },
+            child: Text('Menu 1'),
+          ),
+          RaisedButton(
+            onPressed: () {
+              print('Menu 2');
+            },
+            child: Text('Menu 2'),
+          ),
+          Text('Third Menu')
+        ],
+      ),
     );
   }
 }
