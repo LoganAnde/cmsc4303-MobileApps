@@ -14,6 +14,12 @@ class Lesson1App extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.red[700],
+        textTheme: TextTheme(
+          headline1: TextStyle(
+            fontSize: 30.0,
+            color: Colors.yellow[900],
+          ),
+        ),
       ),
       initialRoute: StartScreen.routeName,
       routes: {
