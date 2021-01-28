@@ -58,6 +58,12 @@ class StartScreen extends StatelessWidget {
           Text('Third Menu')
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('Floating action button');
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
