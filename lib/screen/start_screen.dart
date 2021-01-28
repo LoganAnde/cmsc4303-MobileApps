@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lesson0/screen/materialdesign_screen.dart';
 
 class StartScreen extends StatelessWidget {
   static const routeName = '/startScreen';
@@ -45,9 +46,10 @@ class StartScreen extends StatelessWidget {
         children: [
           RaisedButton(
             onPressed: () {
-              print('Menu 1');
+              // Push() brings up a seperate window you can exit out of using the arrow
+              Navigator.pushNamed(context, MaterialDesignScreen.routeName);
             },
-            child: Text('Menu 1'),
+            child: Text('Material Design Demo'),
           ),
           RaisedButton(
             onPressed: () {
