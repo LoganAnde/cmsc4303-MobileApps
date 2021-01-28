@@ -10,6 +10,11 @@ class Lesson1App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: true,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.red[700],
+      ),
       initialRoute: StartScreen.routeName,
       routes: {
         //Anonymous functions using arrow function notation
