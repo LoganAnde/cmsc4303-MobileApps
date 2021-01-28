@@ -9,8 +9,8 @@ class Lesson1App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/startScreen',
-      routes: {'/startScreen': gotoStart},
+      initialRoute: StartScreen.routeName,
+      routes: {StartScreen.routeName: gotoStart},
     );
   }
 }
