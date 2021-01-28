@@ -64,6 +64,16 @@ class StartScreen extends StatelessWidget {
         },
         child: Icon(Icons.add),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.business), label: 'Business'),
+        ],
+        currentIndex: 0,
+        onTap: (index) {
+          print('Current index = $index');
+        },
+      ),
     );
   }
 }
