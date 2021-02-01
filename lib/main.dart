@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lesson0/screen/button_screen.dart';
+import 'package:lesson0/screen/font_screen.dart';
 import 'package:lesson0/screen/image_screen.dart';
 import 'package:lesson0/screen/materialdesign_screen.dart';
 import 'package:lesson0/screen/start_screen.dart';
@@ -15,6 +16,7 @@ class Lesson1App extends StatelessWidget {
       debugShowCheckedModeBanner: true,
       theme: ThemeData(
         brightness: Brightness.dark,
+        fontFamily: 'Lobster',
         primaryColor: Colors.red[700],
         textTheme: TextTheme(
           headline1: TextStyle(
@@ -30,6 +32,7 @@ class Lesson1App extends StatelessWidget {
         MaterialDesignScreen.routeName: (context) => MaterialDesignScreen(),
         ImageScreen.routeName: (context) => ImageScreen(),
         ButtonScreen.routeName: (context) => ButtonScreen(),
+        FontScreen.routeName: (context) => FontScreen(),
       },
     );
   }
