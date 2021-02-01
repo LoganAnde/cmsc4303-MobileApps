@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lesson0/screen/button_screen.dart';
 import 'package:lesson0/screen/image_screen.dart';
 import 'package:lesson0/screen/materialdesign_screen.dart';
 
@@ -54,7 +55,10 @@ class StartScreen extends StatelessWidget {
             onPressed: () => Navigator.pushNamed(context, ImageScreen.routeName),
             child: Text('Image Demo'),
           ),
-          Text('Third Menu')
+          RaisedButton(
+            onPressed: () => Navigator.pushNamed(context, ButtonScreen.routeName),
+            child: Text('Button Demo'),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(

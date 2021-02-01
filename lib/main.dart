@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lesson0/screen/button_screen.dart';
 import 'package:lesson0/screen/image_screen.dart';
 import 'package:lesson0/screen/materialdesign_screen.dart';
 import 'package:lesson0/screen/start_screen.dart';
@@ -28,6 +29,7 @@ class Lesson1App extends StatelessWidget {
         StartScreen.routeName: (context) => StartScreen(),
         MaterialDesignScreen.routeName: (context) => MaterialDesignScreen(),
         ImageScreen.routeName: (context) => ImageScreen(),
+        ButtonScreen.routeName: (context) => ButtonScreen(),
       },
     );
   }
