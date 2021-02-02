@@ -46,32 +46,37 @@ class StartScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          RaisedButton(
-            // Push() brings up a seperate window you can exit out of using the arrow
-            onPressed: () => Navigator.pushNamed(context, MaterialDesignScreen.routeName),
-            /* Don't really need the "style: Theme..." portion
-               but that's what the lecture had soooooo */
-            child: Text('Material Design Demo', style: Theme.of(context).textTheme.button),
-          ),
-          RaisedButton(
-            onPressed: () => Navigator.pushNamed(context, ImageScreen.routeName),
-            child: Text('Image Demo'),
-          ),
-          RaisedButton(
-            onPressed: () => Navigator.pushNamed(context, ButtonScreen.routeName),
-            child: Text('Button Demo'),
-          ),
-          RaisedButton(
-            onPressed: () => Navigator.pushNamed(context, FontScreen.routeName),
-            child: Text('Custom Font Demo'),
-          ),
-          RaisedButton(
-            onPressed: () => Navigator.pushNamed(context, RowColScreen.routeName),
-            child: Text('Row/Column Layout Demo'),
-          ),
-        ],
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            RaisedButton(
+              // Push() brings up a seperate window you can exit out of using the arrow
+              onPressed: () => Navigator.pushNamed(context, MaterialDesignScreen.routeName),
+              /* Don't really need the "style: Theme..." portion
+                 but that's what the lecture had soooooo */
+              child: Text('Material Design Demo', style: Theme.of(context).textTheme.button),
+            ),
+            RaisedButton(
+              onPressed: () => Navigator.pushNamed(context, ImageScreen.routeName),
+              child: Text('Image Demo'),
+            ),
+            RaisedButton(
+              onPressed: () => Navigator.pushNamed(context, ButtonScreen.routeName),
+              child: Text('Button Demo'),
+            ),
+            RaisedButton(
+              onPressed: () => Navigator.pushNamed(context, FontScreen.routeName),
+              child: Text('Custom Font Demo'),
+            ),
+            RaisedButton(
+              onPressed: () => Navigator.pushNamed(context, RowColScreen.routeName),
+              child: Text('Row/Column Layout Demo'),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
