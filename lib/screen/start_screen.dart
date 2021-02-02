@@ -3,6 +3,7 @@ import 'package:lesson0/screen/button_screen.dart';
 import 'package:lesson0/screen/font_screen.dart';
 import 'package:lesson0/screen/image_screen.dart';
 import 'package:lesson0/screen/materialdesign_screen.dart';
+import 'package:lesson0/screen/rowcol_screen.dart';
 
 class StartScreen extends StatelessWidget {
   static const routeName = '/startScreen';
@@ -65,7 +66,11 @@ class StartScreen extends StatelessWidget {
           RaisedButton(
             onPressed: () => Navigator.pushNamed(context, FontScreen.routeName),
             child: Text('Custom Font Demo'),
-          )
+          ),
+          RaisedButton(
+            onPressed: () => Navigator.pushNamed(context, RowColScreen.routeName),
+            child: Text('Row/Column Layout Demo'),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
