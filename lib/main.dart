@@ -16,13 +16,10 @@ class Lesson1App extends StatelessWidget {
       debugShowCheckedModeBanner: true,
       theme: ThemeData(
         brightness: Brightness.dark,
-        fontFamily: 'Lobster',
+        fontFamily: 'IndieFlower',
         primaryColor: Colors.red[700],
         textTheme: TextTheme(
-          headline1: TextStyle(
-            fontSize: 30.0,
-            color: Colors.yellow[900],
-          ),
+          button: TextStyle(fontFamily: 'Lobster', fontSize: 28.0),
         ),
       ),
       initialRoute: StartScreen.routeName,

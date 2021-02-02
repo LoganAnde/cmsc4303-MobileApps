@@ -50,7 +50,9 @@ class StartScreen extends StatelessWidget {
           RaisedButton(
             // Push() brings up a seperate window you can exit out of using the arrow
             onPressed: () => Navigator.pushNamed(context, MaterialDesignScreen.routeName),
-            child: Text('Material Design Demo'),
+            /* Don't really need the "style: Theme..." portion
+               but that's what the lecture had soooooo */
+            child: Text('Material Design Demo', style: Theme.of(context).textTheme.button),
           ),
           RaisedButton(
             onPressed: () => Navigator.pushNamed(context, ImageScreen.routeName),
