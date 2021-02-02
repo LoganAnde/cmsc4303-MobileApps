@@ -15,6 +15,20 @@ class RowColScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center, // horizontal axis
             // mainAxisAlignment: MainAxisAlignment.center, // vertical axis (not meaningful since wrapped in ScrollView)
             children: [
+              Stack(
+                children: [
+                  Container(
+                    height: 200.0,
+                    width: 500.0,
+                    color: Colors.teal[800],
+                  ),
+                  Positioned(
+                    bottom: 10.0,
+                    right: 10.0,
+                    child: IconButton(icon: Icon(Icons.alarm), onPressed: null),
+                  )
+                ],
+              ),
               Container(
                 color: Colors.teal[900],
                 child: Text('Row 1', style: Theme.of(context).textTheme.headline3),
