@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lesson0/screen/boxdecoration_screen.dart';
 import 'package:lesson0/screen/businesscard_screen.dart';
 import 'package:lesson0/screen/button_screen.dart';
 import 'package:lesson0/screen/expandedwidget_screen.dart';
@@ -84,6 +85,10 @@ class StartScreen extends StatelessWidget {
             RaisedButton(
               onPressed: () => Navigator.pushNamed(context, BusinessCardScreen.routeName),
               child: Text('My Business Card'),
+            ),
+            RaisedButton(
+              onPressed: () => Navigator.pushNamed(context, BoxDecorationScreen.routeName),
+              child: Text('Box Decoration'),
             ),
           ],
         ),

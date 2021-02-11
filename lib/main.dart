@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lesson0/screen/boxdecoration_screen.dart';
 import 'package:lesson0/screen/businesscard_screen.dart';
 import 'package:lesson0/screen/button_screen.dart';
 import 'package:lesson0/screen/expandedwidget_screen.dart';
@@ -36,6 +37,7 @@ class Lesson1App extends StatelessWidget {
         RowColScreen.routeName: (context) => RowColScreen(),
         ExpandedWidgetScreen.routeName: (context) => ExpandedWidgetScreen(),
         BusinessCardScreen.routeName: (context) => BusinessCardScreen(),
+        BoxDecorationScreen.routeName: (context) => BoxDecorationScreen(),
       },
     );
   }
