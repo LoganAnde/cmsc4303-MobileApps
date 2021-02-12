@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lesson0/screen/boxdecoration_screen.dart';
 import 'package:lesson0/screen/businesscard_screen.dart';
 import 'package:lesson0/screen/button_screen.dart';
+import 'package:lesson0/screen/contact_screen.dart';
 import 'package:lesson0/screen/expandedwidget_screen.dart';
 import 'package:lesson0/screen/font_screen.dart';
 import 'package:lesson0/screen/image_screen.dart';
@@ -19,11 +20,11 @@ class Lesson1App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: true,
       theme: ThemeData(
-        brightness: Brightness.dark,
-        fontFamily: 'IndieFlower',
+        brightness: Brightness.light,
+        fontFamily: 'Dank Mono',
         primaryColor: Colors.red[700],
         textTheme: TextTheme(
-          button: TextStyle(fontFamily: 'Lobster', fontSize: 28.0),
+          button: TextStyle(fontFamily: 'Dank Mono', fontSize: 28.0, fontStyle: FontStyle.italic),
         ),
       ),
       initialRoute: StartScreen.routeName,
@@ -38,6 +39,7 @@ class Lesson1App extends StatelessWidget {
         ExpandedWidgetScreen.routeName: (context) => ExpandedWidgetScreen(),
         BusinessCardScreen.routeName: (context) => BusinessCardScreen(),
         BoxDecorationScreen.routeName: (context) => BoxDecorationScreen(),
+        ContactScreen.routeName: (context) => ContactScreen(),
       },
     );
   }

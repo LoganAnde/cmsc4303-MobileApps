@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lesson0/screen/boxdecoration_screen.dart';
-import 'package:lesson0/screen/businesscard_screen.dart';
-import 'package:lesson0/screen/button_screen.dart';
-import 'package:lesson0/screen/expandedwidget_screen.dart';
-import 'package:lesson0/screen/font_screen.dart';
-import 'package:lesson0/screen/image_screen.dart';
-import 'package:lesson0/screen/materialdesign_screen.dart';
-import 'package:lesson0/screen/rowcol_screen.dart';
+import 'package:lesson0/screen/contact_screen.dart';
 
 class StartScreen extends StatelessWidget {
   static const routeName = '/startScreen';
@@ -56,39 +50,12 @@ class StartScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             RaisedButton(
-              // Push() brings up a seperate window you can exit out of using the arrow
-              onPressed: () => Navigator.pushNamed(context, MaterialDesignScreen.routeName),
-              /* Don't really need the "style: Theme..." portion
-                 but that's what the lecture had soooooo */
-              child: Text('Material Design Demo', style: Theme.of(context).textTheme.button),
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.pushNamed(context, ImageScreen.routeName),
-              child: Text('Image Demo'),
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.pushNamed(context, ButtonScreen.routeName),
-              child: Text('Button Demo'),
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.pushNamed(context, FontScreen.routeName),
-              child: Text('Custom Font Demo'),
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.pushNamed(context, RowColScreen.routeName),
-              child: Text('Row/Column Layout Demo'),
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.pushNamed(context, ExpandedWidgetScreen.routeName),
-              child: Text('Expanded Widget Demo'),
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.pushNamed(context, BusinessCardScreen.routeName),
-              child: Text('My Business Card'),
-            ),
-            RaisedButton(
               onPressed: () => Navigator.pushNamed(context, BoxDecorationScreen.routeName),
-              child: Text('Box Decoration'),
+              child: Text('Box Decoration Demo'),
+            ),
+            RaisedButton(
+              onPressed: () => Navigator.pushNamed(context, ContactScreen.routeName),
+              child: Text('Contact Me'),
             ),
           ],
         ),
