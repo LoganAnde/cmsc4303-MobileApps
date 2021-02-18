@@ -58,13 +58,29 @@ class _Controller {
         title: Text(courseList[index].title),
         subtitle: Text(courseList[index].number),
         onTap: () {
-          showDetails(context, courseList[index]);
+          _onTap(context, index);
         },
         onLongPress: () {
           _longPress(context, index);
         },
       ),
     );
+  }
+
+  void _onTap(BuildContext context, int index) {
+    if (selected == null) {
+      showDetails(context, courseList[index]);
+    } else {
+      state.render(() {
+        if (selected.indexOf(index) < 0) {
+          selected.add(index);
+        } else {
+          // cancel the selected by longpressing again
+          selected.removeWhere((value) => value == index);
+          if (selected.length == 0) selected = null;
+        }
+      });
+    }
   }
 
   void _longPress(BuildContext context, int index) {
