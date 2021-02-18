@@ -49,11 +49,58 @@ class _Controller {
         title: Text(courseList[index].title),
         subtitle: Text(courseList[index].number),
         onTap: () {
-          print('onTap: $index');
+          showDetails(context, courseList[index]);
         },
         onLongPress: () {
           print('onLongPress: $index');
         },
+      ),
+    );
+  }
+
+  void showDetails(BuildContext context, Course course) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.pink[50],
+        title: Text(course.number),
+        actions: [
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Close', style: Theme.of(context).textTheme.headline5),
+          )
+        ],
+        content: Card(
+          color: Colors.indigo[300],
+          elevation: 15.0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Image.network(course.imageURL),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        course.title,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  'Prereq: ${course.prereq}',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
