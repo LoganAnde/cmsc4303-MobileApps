@@ -64,12 +64,18 @@ class _Controller {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Text(course.number),
+                  child: Text(course.number, style: Theme.of(state.context).textTheme.headline5),
                 ),
               ],
             ),
-            Text(course.title),
-            Text('Prereq: ${course.prereq}'),
+            Container(
+              padding: EdgeInsets.only(left: 15.0),
+              child: Text(course.title, style: Theme.of(state.context).textTheme.headline6),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 15.0, bottom: 10.0),
+              child: Text('Prereq: ${course.prereq}', style: Theme.of(state.context).textTheme.headline6),
+            ),
           ],
         ),
       );
