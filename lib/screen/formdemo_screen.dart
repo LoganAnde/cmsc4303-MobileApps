@@ -10,6 +10,7 @@ class FormDemoScreen extends StatefulWidget {
 
 class _FormDemoState extends State<FormDemoScreen> {
   _Controller con;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -26,7 +27,39 @@ class _FormDemoState extends State<FormDemoScreen> {
       appBar: AppBar(
         title: Text('Form Demo'),
       ),
-      body: Text('form demo'),
+      body: Form(
+        key: formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text('Sign In, Please', style: Theme.of(context).textTheme.headline5),
+              TextFormField(
+                decoration: InputDecoration(
+                  icon: Icon(Icons.email),
+                  hintText: 'Email',
+                ),
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: false,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  icon: Icon(Icons.security),
+                  hintText: 'Enter Password',
+                ),
+                obscureText: true,
+                autocorrect: false,
+              ),
+              RaisedButton(
+                onPressed: null,
+                child: Text(
+                  'Sign In',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
