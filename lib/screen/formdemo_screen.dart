@@ -40,6 +40,8 @@ class _FormDemoState extends State<FormDemoScreen> {
                 ),
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
+                validator: con.validateEmail,
+                onSaved: con.saveEmail,
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -48,9 +50,11 @@ class _FormDemoState extends State<FormDemoScreen> {
                 ),
                 obscureText: true,
                 autocorrect: false,
+                validator: con.validatePassword,
+                onSaved: con.savePassword,
               ),
               RaisedButton(
-                onPressed: null,
+                onPressed: con.signIn,
                 child: Text(
                   'Sign In',
                   style: Theme.of(context).textTheme.headline5,
@@ -67,4 +71,32 @@ class _FormDemoState extends State<FormDemoScreen> {
 class _Controller {
   _FormDemoState state;
   _Controller(this.state);
+  String email;
+  String password;
+
+  void signIn() {
+    if (!state.formKey.currentState.validate()) return;
+
+    // Now validated
+    state.formKey.currentState.save();
+    print('email = $email password = $password');
+  }
+
+  String validateEmail(String value) {
+    if (value.contains('.') && value.contains('@')) return null;
+    return 'not a valid email';
+  }
+
+  String validatePassword(String value) {
+    if (value.length < 6) return 'too short';
+    return null;
+  }
+
+  void saveEmail(String value) {
+    email = value;
+  }
+
+  void savePassword(String value) {
+    password = value;
+  }
 }
