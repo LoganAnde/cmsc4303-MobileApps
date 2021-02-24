@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lesson0/model/user_record.dart';
 
 class FormDemoScreen extends StatefulWidget {
   static const routeName = '/formDemoScreen';
@@ -11,6 +12,7 @@ class FormDemoScreen extends StatefulWidget {
 class _FormDemoState extends State<FormDemoScreen> {
   _Controller con;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String error;
   @override
   void initState() {
     super.initState();
@@ -32,7 +34,18 @@ class _FormDemoState extends State<FormDemoScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text('Sign In, Please', style: Theme.of(context).textTheme.headline5),
+              Text(
+                'Sign In, Please!',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              error == null
+                  ? SizedBox(
+                      height: 1.0,
+                    )
+                  : Text(
+                      error,
+                      style: TextStyle(fontSize: 16, color: Colors.red),
+                    ),
               TextFormField(
                 decoration: InputDecoration(
                   icon: Icon(Icons.email),
@@ -71,15 +84,24 @@ class _FormDemoState extends State<FormDemoScreen> {
 class _Controller {
   _FormDemoState state;
   _Controller(this.state);
-  String email;
-  String password;
+  UserRecord userRecord = new UserRecord();
 
   void signIn() {
     if (!state.formKey.currentState.validate()) return;
 
     // Now validated
     state.formKey.currentState.save();
-    print('email = $email password = $password');
+    // Lookup user DB
+
+    var user =
+        UserRecord.fakeDB.firstWhere((element) => element.email == userRecord.email && element.password == userRecord.password, orElse: () => null);
+
+    if (user == null) {
+      state.render(() => state.error = 'not valid user credential');
+    } else {
+      print('naviage to user home page');
+      print(user.toString());
+    }
   }
 
   String validateEmail(String value) {
@@ -93,10 +115,10 @@ class _Controller {
   }
 
   void saveEmail(String value) {
-    email = value;
+    userRecord.email = value;
   }
 
   void savePassword(String value) {
-    password = value;
+    userRecord.password = value;
   }
 }
