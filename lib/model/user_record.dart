@@ -48,4 +48,9 @@ class UserRecord {
   String toString() {
     return 'UserRecord[email=$email password=$password]';
   }
+
+  static List<UserRecord> fakeDB = [
+    UserRecord(email: '1@test.com', password: '111111', name: 'One', phone: '1112223333'),
+    UserRecord(email: '2@test.com', password: '222222', name: 'Two', phone: '2223334444'),
+  ];
 }
