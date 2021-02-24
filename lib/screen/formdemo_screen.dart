@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lesson0/model/user_record.dart';
+import 'package:lesson0/screen/userhome_screen.dart';
 
 class FormDemoScreen extends StatefulWidget {
   static const routeName = '/formDemoScreen';
@@ -99,8 +100,7 @@ class _Controller {
     if (user == null) {
       state.render(() => state.error = 'not valid user credential');
     } else {
-      print('naviage to user home page');
-      print(user.toString());
+      Navigator.pushNamed(state.context, UserHomeScreen.routeName, arguments: user);
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:lesson0/screen/formdemo_screen.dart';
 import 'package:lesson0/screen/listdemo_screen.dart';
 import 'package:lesson0/screen/listevent_screen.dart';
 import 'package:lesson0/screen/start_screen.dart';
+import 'package:lesson0/screen/userhome_screen.dart';
 import 'package:lesson0/screen/widgetlifecycle_screen.dart';
 
 void main() {
@@ -22,6 +23,7 @@ class Lesson2App extends StatelessWidget {
         ListDemoScreen.routeName: (context) => ListDemoScreen(),
         ListEventScreen.routeName: (context) => ListEventScreen(),
         FormDemoScreen.routeName: (context) => FormDemoScreen(),
+        UserHomeScreen.routeName: (context) => UserHomeScreen(),
       },
     );
   }
