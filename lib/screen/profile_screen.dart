@@ -113,6 +113,14 @@ class _ProfileState extends State<ProfileScreen> {
               ),
               Column(
                 children: con.getMajorRadioTitle(editMode),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Language Proficiency',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Column(
+                children: con.getLanguageCheckboxes(editMode),
               )
             ],
           ),
@@ -160,6 +168,22 @@ class _Controller {
                     }
                   : null,
             ))
+        .toList();
+  }
+
+  List getLanguageCheckboxes(bool editMode) {
+    return Language.values
+        .map(
+          (e) => CheckboxListTile(
+            value: state.userRecord.languages[e],
+            title: Text(e.toString().split('.')[1]),
+            onChanged: editMode
+                ? (bool value) {
+                    state.render(() => state.userRecord.languages[e] = value);
+                  }
+                : null,
+          ),
+        )
         .toList();
   }
 }
