@@ -103,6 +103,16 @@ class _ProfileState extends State<ProfileScreen> {
                 value: userRecord.classification,
                 items: con.getClassificationList(),
                 onChanged: editMode ? con.onChangedClassification : null,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Major',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Column(
+                children: con.getMajorRadioTitle(editMode),
               )
             ],
           ),
@@ -135,5 +145,21 @@ class _Controller {
 
   void onChangedClassification(Classification c) {
     state.render(() => state.userRecord.classification = c);
+  }
+
+  List getMajorRadioTitle(bool editMode) {
+    return Major.values
+        .map((m) => RadioListTile(
+              title: Text(m.toString().split('.')[1]),
+              dense: true,
+              value: m,
+              groupValue: state.userRecord.major,
+              onChanged: editMode
+                  ? (Major value) {
+                      state.render(() => state.userRecord.major = value);
+                    }
+                  : null,
+            ))
+        .toList();
   }
 }
