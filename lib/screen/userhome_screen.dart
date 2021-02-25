@@ -22,36 +22,39 @@ class _UserHomeState extends State<UserHomeScreen> {
   @override
   Widget build(BuildContext context) {
     userRecord = ModalRoute.of(context).settings.arguments;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home for ${userRecord.name}'),
-      ),
-      drawer: Drawer(
-        child: ListView(
+    return WillPopScope(
+      onWillPop: () => Future.value(false),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Home for ${userRecord.name}'),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                child: Text(userRecord.email),
+              ),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Profile'),
+                onTap: null,
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Sign Out'),
+                onTap: con.signOut,
+              )
+            ],
+          ),
+        ),
+        body: Column(
           children: [
-            DrawerHeader(
-              child: Text(userRecord.email),
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Profile'),
-              onTap: null,
-            ),
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Sign Out'),
-              onTap: con.signOut,
+            Text(
+              'Hi ${userRecord.name}',
+              style: Theme.of(context).textTheme.headline5,
             )
           ],
         ),
-      ),
-      body: Column(
-        children: [
-          Text(
-            'Hi ${userRecord.name}',
-            style: Theme.of(context).textTheme.headline5,
-          )
-        ],
       ),
     );
   }
