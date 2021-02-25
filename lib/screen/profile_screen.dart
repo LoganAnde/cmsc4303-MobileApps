@@ -89,6 +89,21 @@ class _ProfileState extends State<ProfileScreen> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Classification',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              DropdownButtonFormField(
+                disabledHint: Text(
+                  userRecord.classification.toString().split('.')[1],
+                ),
+                value: userRecord.classification,
+                items: con.getClassificationList(),
+                onChanged: editMode ? con.onChangedClassification : null,
+              )
             ],
           ),
         ),
@@ -107,5 +122,18 @@ class _Controller {
 
   void update() {
     state.render(() => state.editMode = false);
+  }
+
+  List getClassificationList() {
+    return Classification.values
+        .map((c) => DropdownMenuItem(
+              child: Text(c.toString().split('.')[1]),
+              value: c,
+            ))
+        .toList();
+  }
+
+  void onChangedClassification(Classification c) {
+    state.render(() => state.userRecord.classification = c);
   }
 }
