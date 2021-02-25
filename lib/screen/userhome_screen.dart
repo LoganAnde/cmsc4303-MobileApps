@@ -11,14 +11,53 @@ class UserHomeScreen extends StatefulWidget {
 
 class _UserHomeState extends State<UserHomeScreen> {
   UserRecord userRecord;
+  _Controller con;
+
+  @override
+  void initState() {
+    super.initState();
+    con = _Controller(this);
+  }
+
   @override
   Widget build(BuildContext context) {
     userRecord = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Home'),
+        title: Text('Home for ${userRecord.name}'),
       ),
-      body: Text(userRecord.toString()),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Text(userRecord.email),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+              onTap: null,
+            ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Sign Out'),
+              onTap: null,
+            )
+          ],
+        ),
+      ),
+      body: Column(
+        children: [
+          Text(
+            'Hi ${userRecord.name}',
+            style: Theme.of(context).textTheme.headline5,
+          )
+        ],
+      ),
     );
   }
+}
+
+class _Controller {
+  _UserHomeState state;
+  _Controller(this.state);
 }
