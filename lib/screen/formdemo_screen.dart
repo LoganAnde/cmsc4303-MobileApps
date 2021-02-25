@@ -100,6 +100,7 @@ class _Controller {
     if (user == null) {
       state.render(() => state.error = 'not valid user credential');
     } else {
+      state.render(() => state.error = null);
       Navigator.pushNamed(state.context, UserHomeScreen.routeName, arguments: user);
     }
   }
