@@ -40,7 +40,7 @@ class _UserHomeState extends State<UserHomeScreen> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Sign Out'),
-              onTap: null,
+              onTap: con.signOut,
             )
           ],
         ),
@@ -60,4 +60,9 @@ class _UserHomeState extends State<UserHomeScreen> {
 class _Controller {
   _UserHomeState state;
   _Controller(this.state);
+
+  void signOut() {
+    Navigator.of(state.context).pop(); // Close the drawer
+    Navigator.of(state.context).pop(); // Pop Userhome scaffold
+  }
 }
