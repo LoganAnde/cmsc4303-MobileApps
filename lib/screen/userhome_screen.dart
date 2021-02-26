@@ -65,8 +65,9 @@ class _Controller {
   _UserHomeState state;
   _Controller(this.state);
 
-  void profile() {
-    Navigator.pushNamed(state.context, ProfileScreen.routeName, arguments: state.userRecord);
+  void profile() async {
+    await Navigator.pushNamed(state.context, ProfileScreen.routeName, arguments: state.userRecord);
+    Navigator.of(state.context).pop(); // close the drawer
   }
 
   void signOut() {
