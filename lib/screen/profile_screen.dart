@@ -51,8 +51,8 @@ class _ProfileState extends State<ProfileScreen> {
                     child: TextFormField(
                       enabled: editMode,
                       initialValue: userRecord.name,
-                      validator: null,
-                      onSaved: null,
+                      validator: con.validateName,
+                      onSaved: con.saveName,
                     ),
                   ),
                 ],
@@ -68,8 +68,8 @@ class _ProfileState extends State<ProfileScreen> {
                     child: TextFormField(
                       enabled: editMode,
                       initialValue: userRecord.phone,
-                      validator: null,
-                      onSaved: null,
+                      validator: con.validatePhone,
+                      onSaved: con.savePhone,
                     ),
                   ),
                 ],
@@ -85,8 +85,8 @@ class _ProfileState extends State<ProfileScreen> {
                     child: TextFormField(
                       enabled: editMode,
                       initialValue: userRecord.age.toString(),
-                      validator: null,
-                      onSaved: null,
+                      validator: con.validateAge,
+                      onSaved: con.saveAge,
                     ),
                   ),
                 ],
@@ -141,7 +141,49 @@ class _Controller {
   }
 
   void update() {
+    if (!state.formKey.currentState.validate()) return;
     state.render(() => state.editMode = false);
+  }
+
+  String validateName(String value) {
+    if (value.length < 2) {
+      return 'min 2 chars';
+    } else {
+      return null;
+    }
+  }
+
+  void saveName(String value) {
+    state.userRecord.name = value;
+  }
+
+  String validatePhone(String value) {
+    if (int.tryParse(value) == null)
+      return 'digits only';
+    else if (value.length < 4)
+      return 'min 4 digits';
+    else
+      return null;
+  }
+
+  void savePhone(String value) {
+    state.userRecord.phone = value;
+  }
+
+  String validateAge(String value) {
+    try {
+      int age = int.parse(value);
+      if (age >= 5)
+        return null;
+      else
+        return 'Min age 5';
+    } catch (e) {
+      return 'Not valid age';
+    }
+  }
+
+  void saveAge(String value) {
+    state.userRecord.age = int.parse(value);
   }
 
   List getClassificationList() {
