@@ -11,6 +11,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileState extends State<ProfileScreen> {
   _Controller con;
+  UserRecord userRecordOriginal;
   UserRecord userRecord;
   bool editMode = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -27,7 +28,8 @@ class _ProfileState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    userRecord = ModalRoute.of(context).settings.arguments;
+    userRecordOriginal ??= ModalRoute.of(context).settings.arguments;
+    userRecord ??= UserRecord.clone(userRecordOriginal);
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
