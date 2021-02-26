@@ -57,6 +57,19 @@ class UserRecord {
     Language.values.forEach((e) => this.languages[e] = user.languages[e]);
   }
 
+  void assign(UserRecord user) {
+    this.email = user.email;
+    this.password = user.password;
+    this.name = user.name;
+    this.phone = user.phone;
+    this.age = user.age;
+    this.classification = user.classification;
+    this.major = user.major;
+    // this.languages = user.languages; // Shallow copy
+    this.languages = {};
+    Language.values.forEach((e) => this.languages[e] = user.languages[e]);
+  }
+
   @override
   String toString() {
     return 'UserRecord[email=$email password=$password]';

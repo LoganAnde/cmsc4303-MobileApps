@@ -142,6 +142,10 @@ class _Controller {
 
   void update() {
     if (!state.formKey.currentState.validate()) return;
+
+    state.formKey.currentState.save();
+    state.userRecordOriginal.assign(state.userRecord);
+
     state.render(() => state.editMode = false);
   }
 
