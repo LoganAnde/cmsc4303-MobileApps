@@ -4,7 +4,9 @@ import 'package:lesson0/screen/formdemo_screen.dart';
 import 'package:lesson0/screen/listdemo_screen.dart';
 import 'package:lesson0/screen/listevent_screen.dart';
 import 'package:lesson0/screen/profile_screen.dart';
+import 'package:lesson0/screen/selectedcolors_screen.dart';
 import 'package:lesson0/screen/start_screen.dart';
+import 'package:lesson0/screen/colorselect_screen.dart';
 import 'package:lesson0/screen/userhome_screen.dart';
 import 'package:lesson0/screen/widgetlifecycle_screen.dart';
 
@@ -26,6 +28,8 @@ class Lesson2App extends StatelessWidget {
         FormDemoScreen.routeName: (context) => FormDemoScreen(),
         UserHomeScreen.routeName: (context) => UserHomeScreen(),
         ProfileScreen.routeName: (context) => ProfileScreen(),
+        ColorSelectScreen.routeName: (context) => ColorSelectScreen(),
+        SelectedColorsScreen.routeName: (context) => SelectedColorsScreen(),
       },
     );
   }
