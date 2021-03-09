@@ -26,26 +26,29 @@ class _UserHomeState extends State<UserHomeScreen> {
   Widget build(BuildContext context) {
     Map args = ModalRoute.of(context).settings.arguments;
     user ??= args['user'];
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('User Home'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            UserAccountsDrawerHeader(
-              accountName: Text(user.displayName ?? 'N/A'),
-              accountEmail: Text(user.email),
-            ),
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Sign Out'),
-              onTap: con.signOut,
-            )
-          ],
+    return WillPopScope(
+      onWillPop: () => Future.value(false), // Android System Back button disabled
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('User Home'),
         ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              UserAccountsDrawerHeader(
+                accountName: Text(user.displayName ?? 'N/A'),
+                accountEmail: Text(user.email),
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Sign Out'),
+                onTap: con.signOut,
+              )
+            ],
+          ),
+        ),
+        body: Text('user home ${user.email}'),
       ),
-      body: Text('user home ${user.email}'),
     );
   }
 }
