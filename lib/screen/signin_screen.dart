@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson0/controller/firebasecontroller.dart';
+import 'package:lesson0/model/constant.dart';
 import 'package:lesson0/screen/myView/mydialog.dart';
 import 'package:lesson0/screen/userhome_screen.dart';
 
@@ -111,6 +112,6 @@ class _Controller {
       );
     }
 
-    Navigator.pushNamed(state.context, UserHomeScreen.routeName, arguments: {'user': user});
+    Navigator.pushNamed(state.context, UserHomeScreen.routeName, arguments: {Constant.ARG_USER: user});
   }
 }
