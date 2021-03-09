@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson0/controller/firebasecontroller.dart';
+import 'package:lesson0/screen/myView/mydialog.dart';
 
 class SignInScreen extends StatefulWidget {
   static const routeName = '/signInScreen';
@@ -103,7 +104,11 @@ class _Controller {
       user = await FirebaseController.signIn(email: email, password: password);
       print('====== ${user.email}');
     } catch (e) {
-      print('======= $e');
+      MyDialog.info(
+        context: state.context,
+        title: 'Sign In Error',
+        content: e.toString(),
+      );
     }
   }
 }
