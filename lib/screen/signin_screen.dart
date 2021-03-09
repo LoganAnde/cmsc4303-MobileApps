@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson0/controller/firebasecontroller.dart';
 import 'package:lesson0/screen/myView/mydialog.dart';
+import 'package:lesson0/screen/userhome_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   static const routeName = '/signInScreen';
@@ -102,7 +103,6 @@ class _Controller {
     User user;
     try {
       user = await FirebaseController.signIn(email: email, password: password);
-      print('====== ${user.email}');
     } catch (e) {
       MyDialog.info(
         context: state.context,
@@ -110,5 +110,7 @@ class _Controller {
         content: e.toString(),
       );
     }
+
+    Navigator.pushNamed(state.context, UserHomeScreen.routeName, arguments: {'user': user});
   }
 }

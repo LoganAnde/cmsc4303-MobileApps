@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson0/screen/signin_screen.dart';
+import 'package:lesson0/screen/userhome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +16,7 @@ class PhotoMemoApp extends StatelessWidget {
       initialRoute: SignInScreen.routeName,
       routes: {
         SignInScreen.routeName: (context) => SignInScreen(),
+        UserHomeScreen.routeName: (context) => UserHomeScreen(),
       },
     );
   }
