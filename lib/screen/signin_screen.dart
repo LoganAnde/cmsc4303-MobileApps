@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lesson0/controller/firebasecontroller.dart';
 
 class SignInScreen extends StatefulWidget {
   static const routeName = '/signInScreen';
@@ -42,7 +44,7 @@ class _SignInState extends State<SignInScreen> {
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  hintText: 'Passwprd',
+                  hintText: 'Password',
                 ),
                 obscureText: true,
                 autocorrect: false,
@@ -91,11 +93,17 @@ class _Controller {
     password = value;
   }
 
-  void signIn() {
+  Future<void> signIn() async {
     if (!state.formKey.currentState.validate()) return;
 
     state.formKey.currentState.save();
 
-    print('==== $email ===== $password');
+    User user;
+    try {
+      user = await FirebaseController.signIn(email: email, password: password);
+      print('====== ${user.email}');
+    } catch (e) {
+      print('======= $e');
+    }
   }
 }

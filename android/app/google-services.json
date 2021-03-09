@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1019216313133",
+    "project_id": "cmsc4303-logana-map21",
+    "storage_bucket": "cmsc4303-logana-map21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019216313133:android:001ab00ad4206ddf9f71a4",
+        "android_client_info": {
+          "package_name": "edu.uco.landerson25.map.photomemoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1019216313133-j5tfvq3svo7qe2c50v1r863cflr2t0am.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC32p7Xx1XxSVgNse16Qp3lbn8evrkW1Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1019216313133-j5tfvq3svo7qe2c50v1r863cflr2t0am.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
