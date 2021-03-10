@@ -34,6 +34,12 @@ class _AddPhotoMemoState extends State<AddPhotoMemoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add PhotoMemo'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: con.save,
+          )
+        ],
       ),
       body: Form(
         key: formKey,
@@ -50,7 +56,7 @@ class _AddPhotoMemoState extends State<AddPhotoMemoScreen> {
                 ),
                 autocorrect: true,
                 validator: PhotoMemo.validateTitle,
-                onSaved: null,
+                onSaved: con.saveTitle,
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -60,7 +66,7 @@ class _AddPhotoMemoState extends State<AddPhotoMemoScreen> {
                 keyboardType: TextInputType.multiline,
                 maxLines: 6,
                 validator: PhotoMemo.validateMemo,
-                onSaved: null,
+                onSaved: con.saveMemo,
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -70,7 +76,7 @@ class _AddPhotoMemoState extends State<AddPhotoMemoScreen> {
                 keyboardType: TextInputType.emailAddress,
                 maxLines: 2,
                 validator: PhotoMemo.validateSharedWith,
-                onSaved: null,
+                onSaved: con.saveSharedWith,
               ),
             ],
           ),
@@ -83,4 +89,27 @@ class _AddPhotoMemoState extends State<AddPhotoMemoScreen> {
 class _Controller {
   _AddPhotoMemoState state;
   _Controller(this.state);
+  PhotoMemo tempMemo = PhotoMemo();
+
+  void save() {
+    if (!state.formKey.currentState.validate()) return;
+    state.formKey.currentState.save();
+    print('======= ${tempMemo.title}');
+    print('======= ${tempMemo.memo}');
+    print('======= ${tempMemo.sharedWith}');
+  }
+
+  void saveTitle(String value) {
+    tempMemo.title = value;
+  }
+
+  void saveMemo(String value) {
+    tempMemo.memo = value;
+  }
+
+  void saveSharedWith(String value) {
+    if (value.trim().length != 0) {
+      tempMemo.sharedWith = value.split(RegExp('(,| )')).map((e) => e.trim()).toList();
+    }
+  }
 }
