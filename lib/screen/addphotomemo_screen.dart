@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson0/model/constant.dart';
+import 'package:lesson0/model/photomemo.dart';
 
 class AddPhotoMemoScreen extends StatefulWidget {
   static const routeName = '/addPhotoMemoScreen';
@@ -48,7 +49,7 @@ class _AddPhotoMemoState extends State<AddPhotoMemoScreen> {
                   hintText: 'Title',
                 ),
                 autocorrect: true,
-                validator: null,
+                validator: PhotoMemo.validateTitle,
                 onSaved: null,
               ),
               TextFormField(
@@ -58,7 +59,7 @@ class _AddPhotoMemoState extends State<AddPhotoMemoScreen> {
                 autocorrect: true,
                 keyboardType: TextInputType.multiline,
                 maxLines: 6,
-                validator: null,
+                validator: PhotoMemo.validateMemo,
                 onSaved: null,
               ),
               TextFormField(
@@ -68,7 +69,7 @@ class _AddPhotoMemoState extends State<AddPhotoMemoScreen> {
                 autocorrect: false,
                 keyboardType: TextInputType.emailAddress,
                 maxLines: 2,
-                validator: null,
+                validator: PhotoMemo.validateSharedWith,
                 onSaved: null,
               ),
             ],
