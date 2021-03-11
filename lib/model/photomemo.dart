@@ -26,6 +26,7 @@ class PhotoMemo {
     this.photoFilename,
     this.photoURL,
     this.timestamp,
+    this.title,
     this.sharedWith,
     this.imageLabels,
   }) {
@@ -45,6 +46,20 @@ class PhotoMemo {
       SHARED_WITH: this.sharedWith,
       IMAGE_LABELS: this.imageLabels,
     };
+  }
+
+  static PhotoMemo deserialize(Map<String, dynamic> doc, String docId) {
+    return PhotoMemo(
+      docId: docId,
+      createdBy: doc[CREATED_BY],
+      title: doc[TITLE],
+      memo: doc[MEMO],
+      photoFilename: doc[PHOTO_FILENAME],
+      photoURL: doc[PHOTO_URL],
+      sharedWith: doc[SHARED_WITH],
+      imageLabels: doc[IMAGE_LABELS],
+      timestamp: doc[TIMESTAMP] == null ? null : DateTime.fromMillisecondsSinceEpoch(doc[TIMESTAMP].millisecondsSinceEpoch),
+    );
   }
 
   static String validateTitle(String value) {
