@@ -159,11 +159,10 @@ class _Controller {
       tempMemo.docId = docId;
 
       MyDialog.circularProgessStop(state.context);
-      print('===== filename: ${photoInfo[Constant.ARG_FILENAME]}');
-      print('===== filename: ${photoInfo[Constant.ARG_DOWNLOADURL]}');
+      Navigator.pop(state.context); // Return to UserHomeScreen
     } catch (e) {
       MyDialog.circularProgessStop(state.context);
-      print('=========== $e');
+      MyDialog.info(context: state.context, title: 'Save PhotoMemo error', content: '$e');
     }
   }
 
