@@ -18,12 +18,18 @@ class FirebaseController {
     await FirebaseAuth.instance.signOut();
   }
 
-  static Future<Map<String, String>> uploadPhotoFile({@required File photo, String filename, @required String uid}) async {
+  static Future<Map<String, String>> uploadPhotoFile({
+    @required File photo,
+    String filename,
+    @required String uid,
+    @required Function listener,
+  }) async {
     filename ??= '${Constant.PHOTOIMAGE_FOLDER}/$uid/${DateTime.now()}'; // new photomemo
     UploadTask task = FirebaseStorage.instance.ref(filename).putFile(photo);
     task.snapshotEvents.listen((TaskSnapshot event) {
-      var progress = event.bytesTransferred / event.totalBytes;
-      print('=========== $progress');
+      double progress = event.bytesTransferred / event.totalBytes;
+      if (event.bytesTransferred == event.totalBytes) progress = null;
+      listener(progress);
     });
     await task;
     String downloadURL = await FirebaseStorage.instance.ref(filename).getDownloadURL();
