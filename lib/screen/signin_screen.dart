@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson0/controller/firebasecontroller.dart';
 import 'package:lesson0/model/constant.dart';
+import 'package:lesson0/model/photomemo.dart';
 import 'package:lesson0/screen/myView/mydialog.dart';
 import 'package:lesson0/screen/userhome_screen.dart';
 
@@ -114,8 +115,18 @@ class _Controller {
       );
       return;
     }
-    MyDialog.circularProgessStop(state.context);
 
-    Navigator.pushNamed(state.context, UserHomeScreen.routeName, arguments: {Constant.ARG_USER: user});
+    try {
+      List<PhotoMemo> photoMemoList = await FirebaseController.getPhotoMemoList(email: user.email);
+      MyDialog.circularProgessStop(state.context);
+      Navigator.pushNamed(
+        state.context,
+        UserHomeScreen.routeName,
+        arguments: {Constant.ARG_USER: user, Constant.ARG_PHOTOMEMOLIST: photoMemoList},
+      );
+    } catch (e) {
+      MyDialog.circularProgessStop(state.context);
+      MyDialog.info(context: state.context, title: 'FireStore getPhotoMemoList error', content: '$e');
+    }
   }
 }
