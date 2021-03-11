@@ -133,9 +133,6 @@ class _Controller {
   void save() async {
     if (!state.formKey.currentState.validate()) return;
     state.formKey.currentState.save();
-    print('======= ${tempMemo.title}');
-    print('======= ${tempMemo.memo}');
-    print('======= ${tempMemo.sharedWith}');
 
     MyDialog.circularProgressStart(state.context);
 
@@ -154,6 +151,13 @@ class _Controller {
           });
         },
       );
+      tempMemo.photoFilename = photoInfo[Constant.ARG_FILENAME];
+      tempMemo.photoURL = photoInfo[Constant.ARG_DOWNLOADURL];
+      tempMemo.timestamp = DateTime.now();
+      tempMemo.createdBy = state.user.email;
+      String docId = await FirebaseController.addPhotoMemo(tempMemo);
+      tempMemo.docId = docId;
+
       MyDialog.circularProgessStop(state.context);
       print('===== filename: ${photoInfo[Constant.ARG_FILENAME]}');
       print('===== filename: ${photoInfo[Constant.ARG_DOWNLOADURL]}');
