@@ -68,6 +68,15 @@ class _UserHomeState extends State<UserHomeScreen> {
                     context: context,
                   ),
                   title: Text(photoMemoList[index].title),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(photoMemoList[index].memo.length >= 20 ? photoMemoList[index].memo.substring(0, 20) + '...' : photoMemoList[index].memo),
+                      Text('Created By: ${photoMemoList[index].createdBy}'),
+                      Text('Shared With: ${photoMemoList[index].sharedWith}'),
+                      Text('Updated At: ${photoMemoList[index].timestamp}'),
+                    ],
+                  ),
                 ),
               ),
       ),
