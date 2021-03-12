@@ -89,11 +89,15 @@ class _Controller {
   _Controller(this.state);
 
   void addButton() async {
-    Navigator.pushNamed(
+    await Navigator.pushNamed(
       state.context,
       AddPhotoMemoScreen.routeName,
-      arguments: {Constant.ARG_USER: state.user},
+      arguments: {
+        Constant.ARG_USER: state.user,
+        Constant.ARG_PHOTOMEMOLIST: state.photoMemoList,
+      },
     );
+    state.render(() {}); // Re-render the Screen
   }
 
   void signOut() async {
