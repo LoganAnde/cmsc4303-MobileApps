@@ -4,6 +4,7 @@ import 'package:lesson0/controller/firebasecontroller.dart';
 import 'package:lesson0/model/constant.dart';
 import 'package:lesson0/model/photomemo.dart';
 import 'package:lesson0/screen/addphotomemo_screen.dart';
+import 'package:lesson0/screen/detailedview_screen.dart';
 
 import 'myView/myImage.dart';
 
@@ -77,6 +78,7 @@ class _UserHomeState extends State<UserHomeScreen> {
                       Text('Updated At: ${photoMemoList[index].timestamp}'),
                     ],
                   ),
+                  onTap: () => con.onTap(index),
                 ),
               ),
       ),
@@ -108,5 +110,16 @@ class _Controller {
     }
     Navigator.of(state.context).pop(); // close the drawer
     Navigator.of(state.context).pop(); // pop UserHomeScreen
+  }
+
+  Future<void> onTap(int index) async {
+    await Navigator.pushNamed(
+      state.context,
+      DetailedViewScreen.routeName,
+      arguments: {
+        Constant.ARG_USER: state.user,
+        Constant.ARG_ONE_PHOTOMEMO: state.photoMemoList[index],
+      },
+    );
   }
 }
