@@ -5,6 +5,8 @@ import 'package:lesson0/model/constant.dart';
 import 'package:lesson0/model/photomemo.dart';
 import 'package:lesson0/screen/addphotomemo_screen.dart';
 
+import 'myView/myImage.dart';
+
 class UserHomeScreen extends StatefulWidget {
   static const routeName = '/userHomeScreen';
   @override
@@ -61,7 +63,10 @@ class _UserHomeState extends State<UserHomeScreen> {
             : ListView.builder(
                 itemCount: photoMemoList.length,
                 itemBuilder: (BuildContext context, int index) => ListTile(
-                  leading: Image.network(photoMemoList[index].photoURL),
+                  leading: MyImage.network(
+                    url: photoMemoList[index].photoURL,
+                    context: context,
+                  ),
                   title: Text(photoMemoList[index].title),
                 ),
               ),
