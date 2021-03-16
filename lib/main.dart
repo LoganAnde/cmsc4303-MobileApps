@@ -18,7 +18,7 @@ class PhotoMemoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: Constant.DEV,
-      theme: ThemeData(brightness: Brightness.dark),
+      theme: ThemeData(brightness: Brightness.dark, primaryColor: Colors.red[700]),
       initialRoute: SignInScreen.routeName,
       routes: {
         SignInScreen.routeName: (context) => SignInScreen(),
