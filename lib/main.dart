@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lesson0/screen/addphotomemo_screen.dart';
 import 'package:lesson0/screen/detailedview_screen.dart';
 import 'package:lesson0/screen/signin_screen.dart';
+import 'package:lesson0/screen/signup_screen.dart';
 import 'package:lesson0/screen/userhome_screen.dart';
 
 import 'model/constant.dart';
@@ -25,6 +26,7 @@ class PhotoMemoApp extends StatelessWidget {
         UserHomeScreen.routeName: (context) => UserHomeScreen(),
         AddPhotoMemoScreen.routeName: (context) => AddPhotoMemoScreen(),
         DetailedViewScreen.routeName: (context) => DetailedViewScreen(),
+        SignUpScreen.routeName: (context) => SignUpScreen(),
       },
     );
   }

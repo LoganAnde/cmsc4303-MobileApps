@@ -4,6 +4,7 @@ import 'package:lesson0/controller/firebasecontroller.dart';
 import 'package:lesson0/model/constant.dart';
 import 'package:lesson0/model/photomemo.dart';
 import 'package:lesson0/screen/myView/mydialog.dart';
+import 'package:lesson0/screen/signup_screen.dart';
 import 'package:lesson0/screen/userhome_screen.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -68,11 +69,20 @@ class _SignInState extends State<SignInScreen> {
                   onSaved: con.savePassword,
                 ),
                 RaisedButton(
-                    onPressed: con.signIn,
-                    child: Text(
-                      'Sign In',
-                      style: Theme.of(context).textTheme.button,
-                    ))
+                  onPressed: con.signIn,
+                  child: Text(
+                    'Sign In',
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                ),
+                SizedBox(height: 15.0),
+                RaisedButton(
+                  onPressed: con.signUp,
+                  child: Text(
+                    'Create a new account',
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                ),
               ],
             ),
           ),
@@ -141,5 +151,10 @@ class _Controller {
       MyDialog.circularProgessStop(state.context);
       MyDialog.info(context: state.context, title: 'FireStore getPhotoMemoList error', content: '$e');
     }
+  }
+
+  void signUp() {
+    // Navigate to sign up screen
+    Navigator.pushNamed(state.context, SignUpScreen.routeName);
   }
 }
