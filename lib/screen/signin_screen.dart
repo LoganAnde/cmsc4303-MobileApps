@@ -32,36 +32,49 @@ class _SignInState extends State<SignInScreen> {
       appBar: AppBar(
         title: Text('Sign In'),
       ),
-      body: Form(
-        key: formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                ),
-                keyboardType: TextInputType.emailAddress,
-                autocorrect: false,
-                validator: con.validateEmail,
-                onSaved: con.saveEmail,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                ),
-                obscureText: true,
-                autocorrect: false,
-                validator: con.validatePassword,
-                onSaved: con.savePassword,
-              ),
-              RaisedButton(
-                  onPressed: con.signIn,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
+        child: Form(
+          key: formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Center(
                   child: Text(
-                    'Sign In',
-                    style: Theme.of(context).textTheme.button,
-                  ))
-            ],
+                    'PhotoMemo',
+                    style: TextStyle(fontFamily: 'Poppins', fontSize: 40.0),
+                  ),
+                ),
+                Text(
+                  'Sign in, please!',
+                  style: TextStyle(fontFamily: 'Poppins'),
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  autocorrect: false,
+                  validator: con.validateEmail,
+                  onSaved: con.saveEmail,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                  ),
+                  obscureText: true,
+                  autocorrect: false,
+                  validator: con.validatePassword,
+                  onSaved: con.savePassword,
+                ),
+                RaisedButton(
+                    onPressed: con.signIn,
+                    child: Text(
+                      'Sign In',
+                      style: Theme.of(context).textTheme.button,
+                    ))
+              ],
+            ),
           ),
         ),
       ),
