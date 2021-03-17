@@ -15,6 +15,7 @@ class _DetailedViewState extends State<DetailedViewScreen> {
   _Controller con;
   User user;
   PhotoMemo onePhotoMemo;
+  bool editMode = false;
 
   @override
   void initState() {
@@ -32,6 +33,9 @@ class _DetailedViewState extends State<DetailedViewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Detailed View'),
+        actions: [
+          editMode ? IconButton(icon: Icon(Icons.check), onPressed: con.update) : IconButton(icon: Icon(Icons.edit), onPressed: con.edit),
+        ],
       ),
       body: Text(onePhotoMemo.imageLabels.join(' | ')),
     );
@@ -41,4 +45,12 @@ class _DetailedViewState extends State<DetailedViewScreen> {
 class _Controller {
   _DetailedViewState state;
   _Controller(this.state);
+
+  void update() {
+    state.render(() => state.editMode = false);
+  }
+
+  void edit() {
+    state.render(() => state.editMode = true);
+  }
 }
