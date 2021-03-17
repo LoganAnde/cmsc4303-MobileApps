@@ -17,12 +17,21 @@ class FirebaseController {
     return userCredential.user;
   }
 
-  static Future<void> signUp({@required String email, @required String password}) async {
+  static Future<void> createAccount({@required String email, @required String password}) async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
   }
+
+  /**
+   * Performing hot restart...                                               
+Restarted application in 1,323ms.
+W/DynamiteModule(10254): Local module descriptor class for providerinstaller not found.
+I/DynamiteModule(10254): Considering local module providerinstaller:0 and remote module providerinstaller:0
+W/ProviderInstaller(10254): Failed to load providerinstaller module: No acceptable module found. Local version is 0 and remote version is 0.
+W/ConnectivityManager.CallbackHandler(10254): callback not found for CALLBACK_AVAILABLE message
+   */
 
   static Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
