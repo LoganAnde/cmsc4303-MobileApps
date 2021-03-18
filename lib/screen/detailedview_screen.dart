@@ -23,6 +23,7 @@ class _DetailedViewState extends State<DetailedViewScreen> {
   PhotoMemo onePhotoMemoTemp;
   bool editMode = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String progressMessage;
 
   @override
   void initState() {
@@ -82,6 +83,7 @@ class _DetailedViewState extends State<DetailedViewScreen> {
                       : SizedBox(height: 1.0),
                 ],
               ),
+              progressMessage == null ? SizedBox(height: 1.0) : Text(progressMessage, style: Theme.of(context).textTheme.headline6),
               TextFormField(
                 enabled: editMode,
                 style: Theme.of(context).textTheme.headline6,
