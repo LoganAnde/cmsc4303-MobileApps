@@ -112,7 +112,7 @@ class _Controller {
     Navigator.of(state.context).pop(); // pop UserHomeScreen
   }
 
-  Future<void> onTap(int index) async {
+  void onTap(int index) async {
     await Navigator.pushNamed(
       state.context,
       DetailedViewScreen.routeName,
@@ -121,5 +121,6 @@ class _Controller {
         Constant.ARG_ONE_PHOTOMEMO: state.photoMemoList[index],
       },
     );
+    state.render(() {}); // refresh
   }
 }

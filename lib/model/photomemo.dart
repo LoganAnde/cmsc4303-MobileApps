@@ -45,7 +45,7 @@ class PhotoMemo {
     this.sharedWith = [];
     this.sharedWith.addAll(p.sharedWith); // deep copy
     this.imageLabels = [];
-    this.imageLabels.addAll(p.sharedWith); // deep copy
+    this.imageLabels.addAll(p.imageLabels); // deep copy
   }
 
   // a == b ==> a.assign(b)

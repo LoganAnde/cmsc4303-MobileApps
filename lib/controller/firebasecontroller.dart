@@ -24,15 +24,6 @@ class FirebaseController {
     );
   }
 
-  /**
-   * Performing hot restart...                                               
-Restarted application in 1,323ms.
-W/DynamiteModule(10254): Local module descriptor class for providerinstaller not found.
-I/DynamiteModule(10254): Considering local module providerinstaller:0 and remote module providerinstaller:0
-W/ProviderInstaller(10254): Failed to load providerinstaller module: No acceptable module found. Local version is 0 and remote version is 0.
-W/ConnectivityManager.CallbackHandler(10254): callback not found for CALLBACK_AVAILABLE message
-   */
-
   static Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
@@ -77,11 +68,11 @@ W/ConnectivityManager.CallbackHandler(10254): callback not found for CALLBACK_AV
     return result;
   }
 
-  static Future<List<String>> getImageLabels({@required File photoFile}) async {
+  static Future<List<dynamic>> getImageLabels({@required File photoFile}) async {
     final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(photoFile);
     final ImageLabeler cloudLabeler = FirebaseVision.instance.cloudImageLabeler();
     final List<ImageLabel> cloudLabels = await cloudLabeler.processImage(visionImage);
-    List<String> labels = <String>[];
+    List<dynamic> labels = <dynamic>[];
     for (ImageLabel label in cloudLabels) {
       if (label.confidence >= Constant.MIN_ML_CONFIDENCE) {
         labels.add(label.text.toLowerCase());

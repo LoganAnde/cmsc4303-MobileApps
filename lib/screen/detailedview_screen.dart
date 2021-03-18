@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lesson0/controller/firebasecontroller.dart';
 import 'package:lesson0/model/constant.dart';
 import 'package:lesson0/model/photomemo.dart';
 import 'package:lesson0/screen/myView/mydialog.dart';
@@ -135,11 +137,55 @@ class _Controller {
   _Controller(this.state);
   File photoFile; // camera or gallery
 
-  void update() {
+  Future<void> update() async {
     if (!state.formKey.currentState.validate()) return;
 
     state.formKey.currentState.save();
-    // state.render(() => state.editMode = false);
+    try {
+      MyDialog.circularProgressStart(state.context);
+      Map<String, dynamic> updateInfo = {};
+      if (photoFile != null) {
+        Map photoInfo = await FirebaseController.uploadPhotoFile(
+          photo: photoFile,
+          filename: state.onePhotoMemoTemp.photoFilename,
+          uid: state.user.uid,
+          listener: (double message) {
+            state.render(() {
+              if (message == null)
+                state.progressMessage = null;
+              else {
+                message *= 100;
+                state.progressMessage = 'Uploading: ' + message.toStringAsFixed(1) + '%';
+              }
+            });
+          },
+        );
+
+        state.onePhotoMemoTemp.photoURL = photoInfo[Constant.ARG_DOWNLOADURL];
+        state.render(() => state.progressMessage = 'ML image labeler started');
+        List<dynamic> labels = await FirebaseController.getImageLabels(photoFile: photoFile);
+        state.onePhotoMemoTemp.imageLabels = labels;
+
+        updateInfo[PhotoMemo.PHOTO_URL] = photoInfo[Constant.ARG_DOWNLOADURL];
+        updateInfo[PhotoMemo.IMAGE_LABELS] = labels;
+      }
+
+      // determine which fields are updated
+      if (state.onePhotoMemoOriginal.title != state.onePhotoMemoTemp.title) updateInfo[PhotoMemo.TITLE] = state.onePhotoMemoTemp.title;
+      if (state.onePhotoMemoOriginal.memo != state.onePhotoMemoTemp.memo) updateInfo[PhotoMemo.MEMO] = state.onePhotoMemoTemp.memo;
+      if (!listEquals(state.onePhotoMemoOriginal.sharedWith, state.onePhotoMemoTemp.sharedWith))
+        updateInfo[PhotoMemo.SHARED_WITH] = state.onePhotoMemoTemp.sharedWith;
+
+      updateInfo[PhotoMemo.TIMESTAMP] = DateTime.now();
+      await FirebaseController.updatePhotoMemo(state.onePhotoMemoTemp.docId, updateInfo);
+
+      state.onePhotoMemoOriginal.assign(state.onePhotoMemoTemp);
+      MyDialog.circularProgessStop(state.context);
+      Navigator.pop(state.context);
+    } catch (e) {
+      MyDialog.circularProgessStop(state.context);
+      MyDialog.info(context: state.context, title: 'Update PhotoMemo error', content: '$e');
+    }
   }
 
   void edit() {
