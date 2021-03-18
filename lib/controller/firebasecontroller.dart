@@ -89,4 +89,8 @@ W/ConnectivityManager.CallbackHandler(10254): callback not found for CALLBACK_AV
     }
     return labels;
   }
+
+  static Future<void> updatePhotoMemo(String docId, Map<String, dynamic> updateInfo) async {
+    await FirebaseFirestore.instance.collection(Constant.PHOTOMEMO_COLLECTION).doc(docId).update(updateInfo);
+  }
 }
