@@ -22,6 +22,7 @@ class _UserHomeState extends State<UserHomeScreen> {
   _Controller con;
   User user;
   List<PhotoMemo> photoMemoList;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -40,10 +41,31 @@ class _UserHomeState extends State<UserHomeScreen> {
       onWillPop: () => Future.value(false), // Android System Back button disabled
       child: Scaffold(
         appBar: AppBar(
-          title: Text('User Home'),
+          // title: Text('User Home'),
           actions: [
-            con.delIndex != null ? IconButton(icon: Icon(Icons.cancel), onPressed: con.cancelDelete) : SizedBox(width: 1.0),
-            con.delIndex != null ? IconButton(icon: Icon(Icons.delete), onPressed: con.delete) : SizedBox(width: 1.0),
+            con.delIndex != null
+                ? IconButton(icon: Icon(Icons.cancel), onPressed: con.cancelDelete)
+                : Form(
+                    key: formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'Search',
+                            fillColor: Theme.of(context).backgroundColor,
+                            filled: true,
+                          ),
+                          autocorrect: true,
+                          onSaved: con.saveSearchKeyString,
+                        ),
+                      ),
+                    ),
+                  ),
+            con.delIndex != null
+                ? IconButton(icon: Icon(Icons.delete), onPressed: con.delete)
+                : IconButton(icon: Icon(Icons.search), onPressed: con.search),
           ],
         ),
         drawer: Drawer(
@@ -179,4 +201,8 @@ class _Controller {
       );
     }
   }
+
+  void saveSearchKeyString(String value) {}
+
+  void search() {}
 }
