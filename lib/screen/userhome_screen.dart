@@ -72,13 +72,19 @@ class _UserHomeState extends State<UserHomeScreen> {
           child: ListView(
             children: [
               UserAccountsDrawerHeader(
-                accountName: Text(user.displayName ?? 'N/A'),
+                currentAccountPicture: Icon(Icons.person, size: 100.0),
+                accountName: Text('Not Set'),
                 accountEmail: Text(user.email),
               ),
               ListTile(
                 leading: Icon(Icons.people),
                 title: Text('Shared With Me'),
                 onTap: con.sharedWithMe,
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+                onTap: null, // con.settings,
               ),
               ListTile(
                 leading: Icon(Icons.exit_to_app),
