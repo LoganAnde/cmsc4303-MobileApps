@@ -207,13 +207,24 @@ class _Controller {
     keyString = value;
   }
 
-  void search() {
+  void search() async {
     state.formKey.currentState.save();
     var keys = keyString.split(',').toList();
     List<String> searchKeys = [];
     for (var k in keys) {
       if (k.trim().isNotEmpty) searchKeys.add(k.trim().toLowerCase());
     }
-    print('$searchKeys');
+
+    try {
+      List<PhotoMemo> results;
+      if (searchKeys.isNotEmpty) {
+        results = await FirebaseController.searchImage(createdBy: state.user.email, searchLabels: searchKeys);
+      } else {
+        results = await FirebaseController.getPhotoMemoList(email: state.user.email);
+      }
+      state.render(() => state.photoMemoList = results);
+    } catch (e) {
+      MyDialog.info(context: state.context, title: 'Search error', content: '$e');
+    }
   }
 }
