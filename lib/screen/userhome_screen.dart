@@ -127,6 +127,7 @@ class _Controller {
   _UserHomeState state;
   _Controller(this.state);
   int delIndex;
+  String keyString;
 
   void addButton() async {
     await Navigator.pushNamed(
@@ -202,7 +203,17 @@ class _Controller {
     }
   }
 
-  void saveSearchKeyString(String value) {}
+  void saveSearchKeyString(String value) {
+    keyString = value;
+  }
 
-  void search() {}
+  void search() {
+    state.formKey.currentState.save();
+    var keys = keyString.split(',').toList();
+    List<String> searchKeys = [];
+    for (var k in keys) {
+      if (k.trim().isNotEmpty) searchKeys.add(k.trim().toLowerCase());
+    }
+    print('$searchKeys');
+  }
 }
