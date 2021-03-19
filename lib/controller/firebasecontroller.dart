@@ -84,4 +84,18 @@ class FirebaseController {
   static Future<void> updatePhotoMemo(String docId, Map<String, dynamic> updateInfo) async {
     await FirebaseFirestore.instance.collection(Constant.PHOTOMEMO_COLLECTION).doc(docId).update(updateInfo);
   }
+
+  static Future<List<PhotoMemo>> getPhotoMemoSharedWithMe({@required String email}) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(Constant.PHOTOMEMO_COLLECTION)
+        .where(PhotoMemo.SHARED_WITH, arrayContains: email)
+        .orderBy(PhotoMemo.TIMESTAMP, descending: true)
+        .get();
+
+    var result = <PhotoMemo>[];
+    querySnapshot.docs.forEach((doc) {
+      result.add(PhotoMemo.deserialize(doc.data(), doc.id));
+    });
+    return result;
+  }
 }
