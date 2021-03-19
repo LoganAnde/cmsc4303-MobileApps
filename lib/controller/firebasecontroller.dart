@@ -98,4 +98,12 @@ class FirebaseController {
     });
     return result;
   }
+
+  static Future<void> deletePhotoMemo(PhotoMemo p) async {
+    // Delete firestore Document
+    await FirebaseFirestore.instance.collection(Constant.PHOTOMEMO_COLLECTION).doc(p.docId).delete();
+
+    // Delete the photo picture file
+    await FirebaseStorage.instance.ref().child(p.photoFilename).delete();
+  }
 }
