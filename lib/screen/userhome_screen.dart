@@ -70,22 +70,26 @@ class _UserHomeState extends State<UserHomeScreen> {
             ? Text('No PhotoMemos Found', style: Theme.of(context).textTheme.headline5)
             : ListView.builder(
                 itemCount: photoMemoList.length,
-                itemBuilder: (BuildContext context, int index) => ListTile(
-                  leading: MyImage.network(
-                    url: photoMemoList[index].photoURL,
-                    context: context,
+                itemBuilder: (BuildContext context, int index) => Container(
+                  color: con.delIndex != null && con.delIndex == index ? Theme.of(context).highlightColor : Theme.of(context).scaffoldBackgroundColor,
+                  child: ListTile(
+                    leading: MyImage.network(
+                      url: photoMemoList[index].photoURL,
+                      context: context,
+                    ),
+                    title: Text(photoMemoList[index].title),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(photoMemoList[index].memo.length >= 20 ? photoMemoList[index].memo.substring(0, 20) + '...' : photoMemoList[index].memo),
+                        Text('Created By: ${photoMemoList[index].createdBy}'),
+                        Text('Shared With: ${photoMemoList[index].sharedWith}'),
+                        Text('Updated At: ${photoMemoList[index].timestamp}'),
+                      ],
+                    ),
+                    onTap: () => con.onTap(index),
+                    onLongPress: () => con.onLongPress(index),
                   ),
-                  title: Text(photoMemoList[index].title),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(photoMemoList[index].memo.length >= 20 ? photoMemoList[index].memo.substring(0, 20) + '...' : photoMemoList[index].memo),
-                      Text('Created By: ${photoMemoList[index].createdBy}'),
-                      Text('Shared With: ${photoMemoList[index].sharedWith}'),
-                      Text('Updated At: ${photoMemoList[index].timestamp}'),
-                    ],
-                  ),
-                  onTap: () => con.onTap(index),
                 ),
               ),
       ),
@@ -96,6 +100,7 @@ class _UserHomeState extends State<UserHomeScreen> {
 class _Controller {
   _UserHomeState state;
   _Controller(this.state);
+  int delIndex;
 
   void addButton() async {
     await Navigator.pushNamed(
@@ -142,5 +147,9 @@ class _Controller {
     } catch (e) {
       MyDialog.info(context: state.context, title: 'get Shared PhotoMemo error', content: '$e');
     }
+  }
+
+  void onLongPress(int index) {
+    state.render(() => delIndex = index);
   }
 }
