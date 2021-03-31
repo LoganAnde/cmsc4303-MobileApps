@@ -10,6 +10,7 @@ class Constant {
 
   static const PHOTOIMAGE_FOLDER = 'photo_images';
   static const PHOTOMEMO_COLLECTION = 'photoMemos';
+  static const COMMENT_COLLEFTCION = 'comments';
 
   static const ARG_DOWNLOADURL = 'downloadurl';
   static const ARG_FILENAME = 'filename';

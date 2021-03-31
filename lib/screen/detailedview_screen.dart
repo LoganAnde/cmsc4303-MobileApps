@@ -25,7 +25,9 @@ class _DetailedViewState extends State<DetailedViewScreen> {
   PhotoMemo onePhotoMemoTemp;
   bool editMode = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> commentFormKey = GlobalKey<FormState>();
   String progressMessage;
+  String comment;
 
   @override
   void initState() {
@@ -48,84 +50,115 @@ class _DetailedViewState extends State<DetailedViewScreen> {
           editMode ? IconButton(icon: Icon(Icons.check), onPressed: con.update) : IconButton(icon: Icon(Icons.edit), onPressed: con.edit),
         ],
       ),
-      body: Form(
-        key: formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Form(
+              key: formKey,
+              child: Column(
                 children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: con.photoFile == null
-                        ? MyImage.network(context: context, url: onePhotoMemoTemp.photoURL)
-                        : Image.file(con.photoFile, fit: BoxFit.fill),
+                  Stack(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: con.photoFile == null
+                            ? MyImage.network(context: context, url: onePhotoMemoTemp.photoURL)
+                            : Image.file(con.photoFile, fit: BoxFit.fill),
+                      ),
+                      editMode
+                          ? Positioned(
+                              right: 0.0,
+                              bottom: 0.0,
+                              child: Container(
+                                color: Colors.red[300],
+                                child: PopupMenuButton<String>(
+                                  onSelected: con.getPhoto,
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      value: Constant.SRC_CAMERA,
+                                      child: Row(children: [Icon(Icons.photo_camera), Text(Constant.SRC_CAMERA)]),
+                                    ),
+                                    PopupMenuItem(
+                                      value: Constant.SRC_GALLERY,
+                                      child: Row(children: [Icon(Icons.photo_library), Text(Constant.SRC_GALLERY)]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : SizedBox(height: 1.0),
+                    ],
                   ),
-                  editMode
-                      ? Positioned(
-                          right: 0.0,
-                          bottom: 0.0,
-                          child: Container(
-                            color: Colors.red[300],
-                            child: PopupMenuButton<String>(
-                              onSelected: con.getPhoto,
-                              itemBuilder: (context) => [
-                                PopupMenuItem(
-                                  value: Constant.SRC_CAMERA,
-                                  child: Row(children: [Icon(Icons.photo_camera), Text(Constant.SRC_CAMERA)]),
-                                ),
-                                PopupMenuItem(
-                                  value: Constant.SRC_GALLERY,
-                                  child: Row(children: [Icon(Icons.photo_library), Text(Constant.SRC_GALLERY)]),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : SizedBox(height: 1.0),
+                  progressMessage == null ? SizedBox(height: 1.0) : Text(progressMessage, style: Theme.of(context).textTheme.headline6),
+                  TextFormField(
+                    enabled: editMode,
+                    style: Theme.of(context).textTheme.headline6,
+                    decoration: InputDecoration(
+                      hintText: 'Enter Title',
+                    ),
+                    initialValue: onePhotoMemoTemp.title,
+                    autocorrect: true,
+                    validator: PhotoMemo.validateTitle,
+                    onSaved: con.saveTitle,
+                  ),
+                  TextFormField(
+                    enabled: editMode,
+                    decoration: InputDecoration(
+                      hintText: 'Enter Memo',
+                    ),
+                    initialValue: onePhotoMemoTemp.memo,
+                    autocorrect: true,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 6,
+                    validator: PhotoMemo.validateMemo,
+                    onSaved: con.saveMemo,
+                  ),
+                  TextFormField(
+                    enabled: editMode,
+                    decoration: InputDecoration(
+                      hintText: 'Enter Shared With (email list)',
+                    ),
+                    initialValue: onePhotoMemoTemp.sharedWith.join(','),
+                    autocorrect: false,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 5,
+                    validator: PhotoMemo.validateSharedWith,
+                    onSaved: con.saveSharedWith,
+                  ),
+                  SizedBox(height: 5.0),
+                  Constant.DEV ? Text('Image Labels generated by ML', style: Theme.of(context).textTheme.bodyText1) : SizedBox(height: 1.0),
+                  Constant.DEV ? Text(onePhotoMemoTemp.imageLabels.join(' | ')) : SizedBox(height: 1.0),
+                  Divider(),
+                  SizedBox(height: 10.0),
                 ],
               ),
-              progressMessage == null ? SizedBox(height: 1.0) : Text(progressMessage, style: Theme.of(context).textTheme.headline6),
-              TextFormField(
-                enabled: editMode,
-                style: Theme.of(context).textTheme.headline6,
-                decoration: InputDecoration(
-                  hintText: 'Enter Title',
-                ),
-                initialValue: onePhotoMemoTemp.title,
-                autocorrect: true,
-                validator: PhotoMemo.validateTitle,
-                onSaved: con.saveTitle,
+            ),
+            Form(
+              key: commentFormKey,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      enabled: true,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.send),
+                          onPressed: con.addComment,
+                        ),
+                        hintText: 'Leave a comment...',
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 2,
+                      //validator: Comment.validateComment,
+                      onSaved: con.saveComment,
+                    ),
+                  ),
+                ],
               ),
-              TextFormField(
-                enabled: editMode,
-                decoration: InputDecoration(
-                  hintText: 'Enter Memo',
-                ),
-                initialValue: onePhotoMemoTemp.memo,
-                autocorrect: true,
-                keyboardType: TextInputType.multiline,
-                maxLines: 6,
-                validator: PhotoMemo.validateMemo,
-                onSaved: con.saveMemo,
-              ),
-              TextFormField(
-                enabled: editMode,
-                decoration: InputDecoration(
-                  hintText: 'Enter Shared With (email list)',
-                ),
-                initialValue: onePhotoMemoTemp.sharedWith.join(','),
-                autocorrect: false,
-                keyboardType: TextInputType.multiline,
-                maxLines: 2,
-                validator: PhotoMemo.validateSharedWith,
-                onSaved: con.saveSharedWith,
-              ),
-              SizedBox(height: 5.0),
-              Constant.DEV ? Text('Image Labels generated by ML', style: Theme.of(context).textTheme.bodyText1) : SizedBox(height: 1.0),
-              Constant.DEV ? Text(onePhotoMemoTemp.imageLabels.join(' | ')) : SizedBox(height: 1.0),
-            ],
-          ),
+            ),
+            SizedBox(height: 300.0),
+          ],
         ),
       ),
     );
@@ -219,5 +252,16 @@ class _Controller {
     if (value.trim().length != 0) {
       state.onePhotoMemoTemp.sharedWith = value.split(RegExp('(,| )+')).map((e) => e.trim()).toList();
     }
+  }
+
+  void addComment() {
+    this.state.commentFormKey.currentState.save();
+  }
+
+  void saveComment(String value) {
+    print('You added a comment: ' + value + "         ");
+
+    // Clear the input field
+    this.state.commentFormKey.currentState.reset();
   }
 }
