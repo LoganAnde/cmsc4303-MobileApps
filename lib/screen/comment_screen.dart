@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lesson0/controller/firebasecontroller.dart';
 import 'package:lesson0/model/comment.dart';
 import 'package:lesson0/model/constant.dart';
 import 'package:lesson0/model/photomemo.dart';
 
 import 'myView/mycomment.dart';
+import 'myView/mydialog.dart';
 import 'myView/myimage.dart';
 
 class CommentScreen extends StatefulWidget {
@@ -64,8 +66,7 @@ class _CommentState extends State<CommentScreen> {
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
                           icon: Icon(Icons.send),
-                          ///////////////onPressed: con.addComment,
-                          onPressed: null,
+                          onPressed: con.addComment,
                         ),
                         hintText: 'Leave a comment...',
                       ),
@@ -73,7 +74,7 @@ class _CommentState extends State<CommentScreen> {
                       keyboardType: TextInputType.multiline,
                       maxLines: 2,
                       validator: Comment.validateComment,
-                      //////////////onSaved: con.saveComment,
+                      onSaved: con.saveComment,
                     ),
                   ),
                 ],
@@ -108,4 +109,40 @@ class _CommentState extends State<CommentScreen> {
 class _Controller {
   _CommentState state;
   _Controller(this.state);
+
+  void addComment() {
+    if (!state.commentFormKey.currentState.validate()) return;
+
+    this.state.commentFormKey.currentState.save();
+  }
+
+  Future<void> saveComment(String value) async {
+    Comment tempComment = Comment();
+
+    // Upload to Firestore
+    MyDialog.circularProgressStart(state.context);
+    try {
+      Map args = ModalRoute.of(this.state.context).settings.arguments;
+      PhotoMemo photoMemo = args[Constant.ARG_ONE_PHOTOMEMO];
+
+      tempComment.content = value;
+      tempComment.photoDocId = photoMemo.docId;
+      tempComment.createdBy = state.user.email;
+      tempComment.timestamp = DateTime.now();
+
+      await FirebaseController.addComment(tempComment);
+
+      state.commentList.insert(0, tempComment);
+
+      MyDialog.circularProgessStop(state.context);
+    } catch (e) {
+      MyDialog.circularProgessStop(state.context);
+      MyDialog.info(context: state.context, title: 'Save Comment error', content: '$e');
+    }
+
+    // Clear the input field and hide the keyboard
+    this.state.commentFormKey.currentState.reset();
+    FocusScope.of(this.state.context).unfocus();
+    FocusScope.of(this.state.context).unfocus();
+  }
 }
