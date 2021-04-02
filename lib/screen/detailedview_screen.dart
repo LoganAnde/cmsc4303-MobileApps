@@ -309,6 +309,5 @@ class _Controller {
 
     // Clear the input field and hide the keyboard
     this.state.commentFormKey.currentState.reset();
-    FocusScope.of(this.state.context).unfocus();
   }
 }

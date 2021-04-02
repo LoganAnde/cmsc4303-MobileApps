@@ -140,9 +140,7 @@ class _Controller {
       MyDialog.info(context: state.context, title: 'Save Comment error', content: '$e');
     }
 
-    // Clear the input field and hide the keyboard
+    // Clear the input field
     this.state.commentFormKey.currentState.reset();
-    FocusScope.of(this.state.context).unfocus();
-    FocusScope.of(this.state.context).unfocus();
   }
 }
