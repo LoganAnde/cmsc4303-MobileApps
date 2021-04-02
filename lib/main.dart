@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson0/screen/addphotomemo_screen.dart';
+import 'package:lesson0/screen/comment_screen.dart';
 import 'package:lesson0/screen/detailedview_screen.dart';
 import 'package:lesson0/screen/sharedwith_screen.dart';
 import 'package:lesson0/screen/signin_screen.dart';
@@ -29,6 +30,7 @@ class PhotoMemoApp extends StatelessWidget {
         DetailedViewScreen.routeName: (context) => DetailedViewScreen(),
         SignUpScreen.routeName: (context) => SignUpScreen(),
         SharedWithScreen.routeName: (context) => SharedWithScreen(),
+        CommentScreen.routeName: (context) => CommentScreen(),
       },
     );
   }

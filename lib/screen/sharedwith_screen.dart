@@ -1,8 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lesson0/controller/firebasecontroller.dart';
+import 'package:lesson0/model/comment.dart';
 import 'package:lesson0/model/constant.dart';
 import 'package:lesson0/model/photomemo.dart';
 import 'package:lesson0/screen/myView/myimage.dart';
+
+import 'comment_screen.dart';
 
 class SharedWithScreen extends StatefulWidget {
   static const routeName = '/sharedWithScreen';
@@ -38,26 +42,38 @@ class _SharedWithState extends State<SharedWithScreen> {
           ? Text('No PhotoMemos shared with me', style: Theme.of(context).textTheme.headline5)
           : ListView.builder(
               itemCount: photoMemoList.length,
-              itemBuilder: (context, index) => Card(
-                elevation: 7.0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        child: MyImage.network(
-                          url: photoMemoList[index].photoURL,
-                          context: context,
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () => con.onTap(index),
+                child: Card(
+                  elevation: 7.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: MyImage.network(
+                            url: photoMemoList[index].photoURL,
+                            context: context,
+                          ),
                         ),
                       ),
-                    ),
-                    Text('Title: ${photoMemoList[index].title}', style: Theme.of(context).textTheme.headline6),
-                    Text('Memo: ${photoMemoList[index].memo}'),
-                    Text('Created By: ${photoMemoList[index].createdBy}'),
-                    Text('Updated At: ${photoMemoList[index].timestamp}'),
-                    Text('Shared With: ${photoMemoList[index].sharedWith}'),
-                  ],
+                      Text('Title: ${photoMemoList[index].title}', style: Theme.of(context).textTheme.headline6),
+                      Text('Memo: ${photoMemoList[index].memo}'),
+                      Text('Created By: ${photoMemoList[index].createdBy}'),
+                      Text('Updated At: ${photoMemoList[index].timestamp}'),
+                      Text('Shared With: ${photoMemoList[index].sharedWith}'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(
+                            Icons.keyboard_arrow_right,
+                            size: 40.0,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -68,4 +84,17 @@ class _SharedWithState extends State<SharedWithScreen> {
 class _Controller {
   _SharedWithState state;
   _Controller(this.state);
+
+  void onTap(int index) async {
+    //List<Comment> commentList = await FirebaseController.getComments("ASDF");
+    await Navigator.pushNamed(
+      state.context,
+      CommentScreen.routeName,
+      arguments: {
+        Constant.ARG_USER: state.user,
+        Constant.ARG_ONE_PHOTOMEMO: state.photoMemoList[index],
+        //Constant.ARG_COMMENTLIST: commentList,
+      },
+    );
+  }
 }
