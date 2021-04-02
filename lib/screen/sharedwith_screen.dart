@@ -86,14 +86,14 @@ class _Controller {
   _Controller(this.state);
 
   void onTap(int index) async {
-    //List<Comment> commentList = await FirebaseController.getComments("ASDF");
+    List<Comment> commentList = await FirebaseController.getComments(state.photoMemoList[index].docId);
     await Navigator.pushNamed(
       state.context,
       CommentScreen.routeName,
       arguments: {
         Constant.ARG_USER: state.user,
         Constant.ARG_ONE_PHOTOMEMO: state.photoMemoList[index],
-        //Constant.ARG_COMMENTLIST: commentList,
+        Constant.ARG_COMMENTLIST: commentList,
       },
     );
   }
