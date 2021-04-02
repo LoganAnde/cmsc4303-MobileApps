@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:lesson0/model/comment.dart';
 import 'package:lesson0/model/constant.dart';
 import 'package:lesson0/model/photomemo.dart';
 
@@ -120,5 +121,10 @@ class FirebaseController {
     var results = <PhotoMemo>[];
     querySnapshot.docs.forEach((doc) => results.add(PhotoMemo.deserialize(doc.data(), doc.id)));
     return results;
+  }
+
+  static Future<String> addComment(Comment comment) async {
+    var ref = await FirebaseFirestore.instance.collection(Constant.COMMENT_COLLEFTCION).add(comment.serialize());
+    return ref.id;
   }
 }

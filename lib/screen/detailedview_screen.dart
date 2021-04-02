@@ -5,8 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lesson0/controller/firebasecontroller.dart';
+import 'package:lesson0/model/comment.dart';
 import 'package:lesson0/model/constant.dart';
 import 'package:lesson0/model/photomemo.dart';
+import 'package:lesson0/screen/myView/mycomment.dart';
 import 'package:lesson0/screen/myView/mydialog.dart';
 import 'package:lesson0/screen/myView/myimage.dart';
 
@@ -28,6 +30,7 @@ class _DetailedViewState extends State<DetailedViewScreen> {
   GlobalKey<FormState> commentFormKey = GlobalKey<FormState>();
   String progressMessage;
   String comment;
+  List<Comment> commentList;
 
   @override
   void initState() {
@@ -43,6 +46,8 @@ class _DetailedViewState extends State<DetailedViewScreen> {
     user ??= args[Constant.ARG_USER];
     onePhotoMemoOriginal ??= args[Constant.ARG_ONE_PHOTOMEMO];
     onePhotoMemoTemp ??= PhotoMemo.clone(onePhotoMemoOriginal);
+    commentList ??= [];
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Detailed View'),
@@ -150,14 +155,31 @@ class _DetailedViewState extends State<DetailedViewScreen> {
                       autocorrect: false,
                       keyboardType: TextInputType.multiline,
                       maxLines: 2,
-                      //validator: Comment.validateComment,
+                      validator: Comment.validateComment,
                       onSaved: con.saveComment,
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 300.0),
+            SizedBox(height: 55.0),
+            Text(
+              "Comments",
+              style: Theme.of(context).textTheme.headline5,
+              textAlign: TextAlign.left,
+            ),
+            SizedBox(height: 10.0),
+            ListView.builder(
+              // scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: 4,
+              //itemCount: commentList.length,
+              itemBuilder: (BuildContext context, int index) => Container(
+                child: MyComment.comment(),
+              ),
+            ),
+            SizedBox(height: 100.0),
           ],
         ),
       ),
@@ -255,13 +277,35 @@ class _Controller {
   }
 
   void addComment() {
+    if (!state.commentFormKey.currentState.validate()) return;
+
     this.state.commentFormKey.currentState.save();
   }
 
-  void saveComment(String value) {
-    print('You added a comment: ' + value + "         ");
+  Future<void> saveComment(String value) async {
+    Comment tempComment = Comment();
 
-    // Clear the input field
+    // Upload to Firestore
+    MyDialog.circularProgressStart(state.context);
+    try {
+      Map args = ModalRoute.of(this.state.context).settings.arguments;
+      PhotoMemo photoMemo = args[Constant.ARG_ONE_PHOTOMEMO];
+
+      tempComment.content = value;
+      tempComment.photoDocId = photoMemo.docId;
+      tempComment.createdBy = state.user.email;
+      tempComment.timestamp = DateTime.now();
+
+      await FirebaseController.addComment(tempComment);
+
+      MyDialog.circularProgessStop(state.context);
+    } catch (e) {
+      MyDialog.circularProgessStop(state.context);
+      //print(e.toString());
+    }
+
+    // Clear the input field and hide the keyboard
     this.state.commentFormKey.currentState.reset();
+    FocusScope.of(this.state.context).unfocus();
   }
 }
