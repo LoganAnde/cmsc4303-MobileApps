@@ -39,27 +39,28 @@ class _SharedWithState extends State<SharedWithScreen> {
           : ListView.builder(
               itemCount: photoMemoList.length,
               itemBuilder: (context, index) => Card(
-                    elevation: 7.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            child: MyImage.network(
-                              url: photoMemoList[index].photoURL,
-                              context: context,
-                            ),
-                          ),
+                elevation: 7.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: MyImage.network(
+                          url: photoMemoList[index].photoURL,
+                          context: context,
                         ),
-                        Text('Title: ${photoMemoList[index].title}', style: Theme.of(context).textTheme.headline6),
-                        Text('Memo: ${photoMemoList[index].memo}'),
-                        Text('Created By: ${photoMemoList[index].createdBy}'),
-                        Text('Updated At: ${photoMemoList[index].timestamp}'),
-                        Text('Shared With: ${photoMemoList[index].sharedWith}'),
-                      ],
+                      ),
                     ),
-                  )),
+                    Text('Title: ${photoMemoList[index].title}', style: Theme.of(context).textTheme.headline6),
+                    Text('Memo: ${photoMemoList[index].memo}'),
+                    Text('Created By: ${photoMemoList[index].createdBy}'),
+                    Text('Updated At: ${photoMemoList[index].timestamp}'),
+                    Text('Shared With: ${photoMemoList[index].sharedWith}'),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }
