@@ -35,7 +35,7 @@ class Comment {
       docId: docId,
       createdBy: doc[CREATED_BY],
       content: doc[CONTENT],
-      timestamp: doc[TIMESTAMP],
+      timestamp: doc[TIMESTAMP] == null ? null : DateTime.fromMillisecondsSinceEpoch(doc[TIMESTAMP].millisecondsSinceEpoch),
     );
   }
 

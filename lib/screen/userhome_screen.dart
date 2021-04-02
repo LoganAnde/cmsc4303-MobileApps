@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lesson0/controller/firebasecontroller.dart';
+import 'package:lesson0/model/comment.dart';
 import 'package:lesson0/model/constant.dart';
 import 'package:lesson0/model/photomemo.dart';
 import 'package:lesson0/screen/addphotomemo_screen.dart';
@@ -160,12 +161,14 @@ class _Controller {
 
   void onTap(int index) async {
     if (delIndex != null) return;
+    List<Comment> commentList = await FirebaseController.getComments(state.photoMemoList[index].docId);
     await Navigator.pushNamed(
       state.context,
       DetailedViewScreen.routeName,
       arguments: {
         Constant.ARG_USER: state.user,
         Constant.ARG_ONE_PHOTOMEMO: state.photoMemoList[index],
+        Constant.ARG_COMMENTLIST: commentList,
       },
     );
     state.render(() {}); // refresh

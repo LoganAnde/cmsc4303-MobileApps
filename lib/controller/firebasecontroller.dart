@@ -124,7 +124,18 @@ class FirebaseController {
   }
 
   static Future<String> addComment(Comment comment) async {
-    var ref = await FirebaseFirestore.instance.collection(Constant.COMMENT_COLLEFTCION).add(comment.serialize());
+    var ref = await FirebaseFirestore.instance.collection(Constant.COMMENT_COLLECTION).add(comment.serialize());
     return ref.id;
+  }
+
+  static Future<List<Comment>> getComments(String photoDocId) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(Constant.COMMENT_COLLECTION)
+        .where(Comment.PHOTODOCID, isEqualTo: photoDocId)
+        .orderBy(Comment.TIMESTAMP, descending: true)
+        .get();
+    var results = <Comment>[];
+    querySnapshot.docs.forEach((doc) => results.add(Comment.deserialize(doc.data(), doc.id)));
+    return results;
   }
 }

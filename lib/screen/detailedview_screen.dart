@@ -46,7 +46,7 @@ class _DetailedViewState extends State<DetailedViewScreen> {
     user ??= args[Constant.ARG_USER];
     onePhotoMemoOriginal ??= args[Constant.ARG_ONE_PHOTOMEMO];
     onePhotoMemoTemp ??= PhotoMemo.clone(onePhotoMemoOriginal);
-    commentList ??= [];
+    commentList ??= args[Constant.ARG_COMMENTLIST];
 
     return Scaffold(
       appBar: AppBar(
@@ -173,10 +173,11 @@ class _DetailedViewState extends State<DetailedViewScreen> {
               // scrollDirection: Axis.vertical,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: 4,
-              //itemCount: commentList.length,
+              itemCount: commentList.length,
               itemBuilder: (BuildContext context, int index) => Container(
-                child: MyComment.comment(),
+                child: MyComment.comment(
+                  comment: commentList[index],
+                ),
               ),
             ),
             SizedBox(height: 100.0),
@@ -298,10 +299,12 @@ class _Controller {
 
       await FirebaseController.addComment(tempComment);
 
+      state.commentList.insert(0, tempComment);
+
       MyDialog.circularProgessStop(state.context);
     } catch (e) {
       MyDialog.circularProgessStop(state.context);
-      //print(e.toString());
+      MyDialog.info(context: state.context, title: 'Save Comment error', content: '$e');
     }
 
     // Clear the input field and hide the keyboard

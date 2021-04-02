@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lesson0/model/comment.dart';
 
 class MyComment {
-  static Row comment() {
+  static Row comment({@required Comment comment}) {
     return Row(
       children: [
         Expanded(
@@ -16,17 +17,17 @@ class MyComment {
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   children: [
                     Text(
-                      "2@test.com" + "  ",
+                      comment.createdBy + "  ",
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "2:59PM",
+                      comment.timestamp.toString(),
                       style: TextStyle(fontSize: 11),
                     ),
                   ],
                 ),
                 SizedBox(height: 5.0),
-                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+                Text(comment.content),
               ],
             ),
           ),
