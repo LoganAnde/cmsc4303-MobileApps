@@ -6,6 +6,7 @@ class PhotoMemo {
   String photoFilename; // stored at Storage portion of Firestore
   String photoURL;
   DateTime timestamp;
+  int commentsCount; // amount of comments left
   List<dynamic> sharedWith; // list of email addresses
   List<dynamic> imageLabels; // image identified by Machine Learning
 
@@ -16,6 +17,7 @@ class PhotoMemo {
   static const PHOTO_URL = 'photoURL';
   static const PHOTO_FILENAME = 'photoFilename';
   static const TIMESTAMP = 'timestamp';
+  static const COMMENTS_COUNT = 'commentsCount';
   static const SHARED_WITH = 'sharedWith';
   static const IMAGE_LABELS = 'imageLabels';
 
@@ -27,6 +29,7 @@ class PhotoMemo {
     this.photoURL,
     this.timestamp,
     this.title,
+    this.commentsCount,
     this.sharedWith,
     this.imageLabels,
   }) {
@@ -42,6 +45,7 @@ class PhotoMemo {
     this.photoURL = p.photoURL;
     this.title = p.title;
     this.timestamp = p.timestamp;
+    this.commentsCount = p.commentsCount;
     this.sharedWith = [];
     this.sharedWith.addAll(p.sharedWith); // deep copy
     this.imageLabels = [];
@@ -57,6 +61,7 @@ class PhotoMemo {
     this.photoURL = p.photoURL;
     this.title = p.title;
     this.timestamp = p.timestamp;
+    this.commentsCount = p.commentsCount;
     this.sharedWith.clear();
     this.sharedWith.addAll(p.sharedWith);
     this.imageLabels.clear();
@@ -72,6 +77,7 @@ class PhotoMemo {
       PHOTO_URL: this.photoURL,
       PHOTO_FILENAME: this.photoFilename,
       TIMESTAMP: this.timestamp,
+      COMMENTS_COUNT: this.commentsCount,
       SHARED_WITH: this.sharedWith,
       IMAGE_LABELS: this.imageLabels,
     };
@@ -85,6 +91,7 @@ class PhotoMemo {
       memo: doc[MEMO],
       photoFilename: doc[PHOTO_FILENAME],
       photoURL: doc[PHOTO_URL],
+      commentsCount: doc[COMMENTS_COUNT],
       sharedWith: doc[SHARED_WITH],
       imageLabels: doc[IMAGE_LABELS],
       timestamp: doc[TIMESTAMP] == null ? null : DateTime.fromMillisecondsSinceEpoch(doc[TIMESTAMP].millisecondsSinceEpoch),

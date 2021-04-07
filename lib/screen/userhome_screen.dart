@@ -110,7 +110,14 @@ class _UserHomeState extends State<UserHomeScreen> {
                       url: photoMemoList[index].photoURL,
                       context: context,
                     ),
-                    trailing: Icon(Icons.keyboard_arrow_right),
+                    trailing: Wrap(
+                      spacing: 5,
+                      children: [
+                        Text(photoMemoList[index].commentsCount.toString()),
+                        Icon(Icons.mode_comment),
+                        Icon(Icons.keyboard_arrow_right),
+                      ],
+                    ),
                     title: Text(photoMemoList[index].title),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

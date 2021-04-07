@@ -124,7 +124,15 @@ class FirebaseController {
   }
 
   static Future<String> addComment(Comment comment) async {
+    // Add comment to the comment collection
     var ref = await FirebaseFirestore.instance.collection(Constant.COMMENT_COLLECTION).add(comment.serialize());
+
+    // Update the commentCount on photomemo doc
+    await FirebaseFirestore.instance
+        .collection(Constant.PHOTOMEMO_COLLECTION)
+        .doc(comment.photoDocId)
+        .update({PhotoMemo.COMMENTS_COUNT: FieldValue.increment(1)});
+
     return ref.id;
   }
 

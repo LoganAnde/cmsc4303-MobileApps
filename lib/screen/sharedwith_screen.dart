@@ -66,10 +66,9 @@ class _SharedWithState extends State<SharedWithScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Icon(
-                            Icons.keyboard_arrow_right,
-                            size: 40.0,
-                          ),
+                          Text(photoMemoList[index].commentsCount.toString()),
+                          Icon(Icons.mode_comment),
+                          Icon(Icons.keyboard_arrow_right, size: 40.0),
                         ],
                       )
                     ],
