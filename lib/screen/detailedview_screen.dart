@@ -309,5 +309,8 @@ class _Controller {
 
     // Clear the input field
     this.state.commentFormKey.currentState.reset();
+
+    ++state.onePhotoMemoTemp.commentsCount;
+    state.onePhotoMemoOriginal.assign(state.onePhotoMemoTemp);
   }
 }

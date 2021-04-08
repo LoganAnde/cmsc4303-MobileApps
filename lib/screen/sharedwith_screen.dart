@@ -95,5 +95,7 @@ class _Controller {
         Constant.ARG_COMMENTLIST: commentList,
       },
     );
+
+    state.render(() {}); // refresh
   }
 }

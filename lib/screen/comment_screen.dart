@@ -21,7 +21,8 @@ class CommentScreen extends StatefulWidget {
 class _CommentState extends State<CommentScreen> {
   _Controller con;
   User user;
-  PhotoMemo photoMemo;
+  PhotoMemo onePhotoMemoOriginal;
+  PhotoMemo onePhotoMemoTemp;
   List<Comment> commentList;
   GlobalKey<FormState> commentFormKey = GlobalKey<FormState>();
 
@@ -37,7 +38,8 @@ class _CommentState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     Map args = ModalRoute.of(context).settings.arguments;
     user ??= args[Constant.ARG_USER];
-    photoMemo ??= args[Constant.ARG_ONE_PHOTOMEMO];
+    onePhotoMemoOriginal ??= args[Constant.ARG_ONE_PHOTOMEMO];
+    onePhotoMemoTemp ??= PhotoMemo.clone(onePhotoMemoOriginal);
     commentList ??= args[Constant.ARG_COMMENTLIST];
 
     return Scaffold(
@@ -51,7 +53,7 @@ class _CommentState extends State<CommentScreen> {
               children: [
                 Container(
                   height: MediaQuery.of(context).size.height * 0.4,
-                  child: MyImage.network(context: context, url: photoMemo.photoURL),
+                  child: MyImage.network(context: context, url: onePhotoMemoTemp.photoURL),
                 )
               ],
             ),
@@ -142,5 +144,8 @@ class _Controller {
 
     // Clear the input field
     this.state.commentFormKey.currentState.reset();
+
+    ++state.onePhotoMemoTemp.commentsCount;
+    state.onePhotoMemoOriginal.assign(state.onePhotoMemoTemp);
   }
 }
