@@ -113,15 +113,9 @@ class PhotoMemo {
   }
 
   static String validateSharedWith(String value) {
-    if (value == null || value.trim().length == 0) return null;
+    if (value == null || value.trim().length == 0 || !(value.contains('@') && value.contains('.')))
+      return 'Please enter a valid email to share with.';
 
-    List<String> emailList = value.split(RegExp('(,| )+')).map((e) => e.trim()).toList();
-    for (String email in emailList) {
-      if (email.contains('@') && email.contains('.'))
-        continue;
-      else
-        return 'Comma(,) or space seperated email list';
-    }
     return null;
   }
 }
