@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lesson0/controller/firebasecontroller.dart';
@@ -318,8 +317,16 @@ class _Controller {
     this.state.sharedWithFormKey.currentState.save();
   }
 
-  void deleteSharedWith(int index) {
-    print('remove shared with: ' + index.toString());
+  void deleteSharedWith(int index) async {
+    print('remove shared with: ' + state.onePhotoMemoTemp.sharedWith[index]);
+    state.onePhotoMemoTemp.sharedWith.removeAt(index);
+
+    Map<String, dynamic> updateInfo = {};
+    updateInfo[PhotoMemo.SHARED_WITH] = state.onePhotoMemoTemp.sharedWith;
+    await FirebaseController.updatePhotoMemo(state.onePhotoMemoTemp.docId, updateInfo);
+
+    state.onePhotoMemoOriginal.assign(state.onePhotoMemoTemp);
+    state.render(() {}); // refresh
   }
 
   void addComment() {
