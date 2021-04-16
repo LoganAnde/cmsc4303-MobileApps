@@ -131,6 +131,8 @@ class _Controller {
   _AddPhotoMemoState state;
   _Controller(this.state);
   PhotoMemo tempMemo = PhotoMemo();
+  String labelOption;
+  List<dynamic> imageLabels;
 
   void save() async {
     if (!state.formKey.currentState.validate()) return;
@@ -154,9 +156,25 @@ class _Controller {
         },
       );
 
+      MyDialog.circularProgessStop(state.context);
+
+      // Prompt user for how they want to generate labels
+      labelOption = await MyDialog.twoOptions(
+        context: state.context,
+        content: 'How would you like to generate labels?',
+        option1: 'By Image Content',
+        option2: 'By Image Text',
+      );
+
+      MyDialog.circularProgressStart(state.context);
       // Image labels by Machine Learning (ML)
       state.render(() => state.progressMessage = 'ML Image Labeler Started!');
-      List<dynamic> imageLabels = await FirebaseController.getImageLabels(photoFile: state.photo);
+
+      if (labelOption == "By Image Content") {
+        imageLabels = await FirebaseController.getImageLabelsByContent(photoFile: state.photo);
+      } else {
+        imageLabels = await FirebaseController.getImageLabelsByText(photoFile: state.photo);
+      }
       state.render(() => state.progressMessage = null);
 
       tempMemo.photoFilename = photoInfo[Constant.ARG_FILENAME];

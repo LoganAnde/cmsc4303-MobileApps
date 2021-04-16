@@ -222,6 +222,8 @@ class _Controller {
   _DetailedViewState state;
   _Controller(this.state);
   File photoFile; // camera or gallery
+  String labelOption;
+  List<dynamic> labels;
 
   Future<void> update() async {
     if (!state.formKey.currentState.validate()) return;
@@ -248,8 +250,27 @@ class _Controller {
         );
 
         state.onePhotoMemoTemp.photoURL = photoInfo[Constant.ARG_DOWNLOADURL];
+
+        MyDialog.circularProgessStop(state.context);
+
+        // Prompt user for how they want to generate labels
+        labelOption = await MyDialog.twoOptions(
+          context: state.context,
+          content: 'How would you like to generate labels?',
+          option1: 'By Image Content',
+          option2: 'By Image Text',
+        );
+
+        MyDialog.circularProgressStart(state.context);
+
         state.render(() => state.progressMessage = 'ML image labeler started');
-        List<dynamic> labels = await FirebaseController.getImageLabels(photoFile: photoFile);
+
+        if (labelOption == "By Image Content") {
+          labels = await FirebaseController.getImageLabelsByContent(photoFile: photoFile);
+        } else {
+          labels = await FirebaseController.getImageLabelsByText(photoFile: photoFile);
+        }
+
         state.onePhotoMemoTemp.imageLabels = labels;
 
         updateInfo[PhotoMemo.PHOTO_URL] = photoInfo[Constant.ARG_DOWNLOADURL];
