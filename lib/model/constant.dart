@@ -17,4 +17,6 @@ class Constant {
   static const ARG_FILENAME = 'filename';
 
   static const MIN_ML_CONFIDENCE = 0.7;
+
+  static const ACTION_DELETE = 'delete';
 }

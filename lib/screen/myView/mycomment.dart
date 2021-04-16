@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:lesson0/model/comment.dart';
+import 'package:lesson0/model/constant.dart';
 
-class MyComment {
-  static Row comment({@required Comment comment}) {
+class MyComment extends StatelessWidget {
+  final Comment comment;
+  final VoidCallback onDelete;
+  final String currentUser;
+
+  MyComment({@required this.comment, this.onDelete, @required this.currentUser}) {
+    assert(comment != null);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //static Row comment({@required Comment comment}) {
     return Row(
       children: [
         Expanded(
@@ -27,7 +38,22 @@ class MyComment {
                   ],
                 ),
                 SizedBox(height: 5.0),
-                Text(comment.content),
+                Row(
+                  children: [
+                    Expanded(child: Text(comment.content)),
+                    currentUser == comment.createdBy ? PopupMenuButton<String>(
+                      onSelected: (value) => onDelete(),
+                      itemBuilder: (context) => <PopupMenuEntry<String>>[
+                        PopupMenuItem(
+                          value: Constant.ACTION_DELETE,
+                          child: Row(
+                            children: [Icon(Icons.delete), Text(Constant.ACTION_DELETE)],
+                          ),
+                        ),
+                      ],
+                    ) : SizedBox(width: 1.0),
+                  ],
+                ),
               ],
             ),
           ),

@@ -157,4 +157,15 @@ class FirebaseController {
     querySnapshot.docs.forEach((doc) => results.add(Comment.deserialize(doc.data(), doc.id)));
     return results;
   }
+
+  static Future<void> deleteComment(Comment comment) async {
+    // Delete firestore Document for the comment
+    await FirebaseFirestore.instance.collection(Constant.COMMENT_COLLECTION).doc(comment.docId).delete();
+
+    // Update the firestore doc for the PhotoMemo.commentsCount
+    await FirebaseFirestore.instance
+        .collection(Constant.PHOTOMEMO_COLLECTION)
+        .doc(comment.photoDocId)
+        .update({PhotoMemo.COMMENTS_COUNT: FieldValue.increment(-1)});
+  }
 }

@@ -95,8 +95,10 @@ class _CommentState extends State<CommentScreen> {
               physics: NeverScrollableScrollPhysics(),
               itemCount: commentList.length,
               itemBuilder: (BuildContext context, int index) => Container(
-                child: MyComment.comment(
+                child: MyComment(
                   comment: commentList[index],
+                  currentUser: user.email,
+                  onDelete: () => con.deleteComment(index),
                 ),
               ),
             ),
@@ -147,5 +149,26 @@ class _Controller {
 
     ++state.onePhotoMemoTemp.commentsCount;
     state.onePhotoMemoOriginal.assign(state.onePhotoMemoTemp);
+  }
+
+  void deleteComment(int index) {
+    try {
+      Map args = ModalRoute.of(this.state.context).settings.arguments;
+      PhotoMemo p = args[Constant.ARG_ONE_PHOTOMEMO];
+      Comment comment = state.commentList[index];
+      comment.photoDocId = p.docId;
+      
+      FirebaseController.deleteComment(comment);
+      state.commentList.removeAt(index);
+      --state.onePhotoMemoTemp.commentsCount;
+      state.onePhotoMemoOriginal.assign(state.onePhotoMemoTemp);
+      state.render(() {});
+    } catch (e) {
+      MyDialog.info(
+        context: state.context,
+        title: 'Delete comment error',
+        content: '$e',
+      );
+    }
   }
 }
