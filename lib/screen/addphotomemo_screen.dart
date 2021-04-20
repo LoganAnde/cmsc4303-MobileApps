@@ -21,6 +21,8 @@ class _AddPhotoMemoState extends State<AddPhotoMemoScreen> {
   User user;
   List<PhotoMemo> photoMemoList;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> sharedWithFormKey = GlobalKey<FormState>();
+  List<String> sharedWithList = List<String>();
   File photo;
   String progressMessage;
 
@@ -47,80 +49,117 @@ class _AddPhotoMemoState extends State<AddPhotoMemoScreen> {
           )
         ],
       ),
-      body: Form(
-        key: formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: photo == null ? Icon(Icons.photo_library, size: 300) : Image.file(photo, fit: BoxFit.fill),
-                  ),
-                  Positioned(
-                    right: 0.0,
-                    bottom: 0.0,
-                    child: Container(
-                      color: Colors.blue[200],
-                      child: PopupMenuButton<String>(
-                        onSelected: con.getPhoto,
-                        itemBuilder: (context) => <PopupMenuEntry<String>>[
-                          PopupMenuItem(
-                            value: Constant.SRC_CAMERA,
-                            child: Row(
-                              children: [
-                                Icon(Icons.photo_camera),
-                                Text(Constant.SRC_CAMERA),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Stack(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: photo == null ? Icon(Icons.photo_library, size: 300) : Image.file(photo, fit: BoxFit.fill),
+                        ),
+                        Positioned(
+                          right: 0.0,
+                          bottom: 0.0,
+                          child: Container(
+                            color: Colors.blue[200],
+                            child: PopupMenuButton<String>(
+                              onSelected: con.getPhoto,
+                              itemBuilder: (context) => <PopupMenuEntry<String>>[
+                                PopupMenuItem(
+                                  value: Constant.SRC_CAMERA,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.photo_camera),
+                                      Text(Constant.SRC_CAMERA),
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: Constant.SRC_GALLERY,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.photo_album),
+                                      Text(Constant.SRC_GALLERY),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                          PopupMenuItem(
-                            value: Constant.SRC_GALLERY,
-                            child: Row(
-                              children: [
-                                Icon(Icons.photo_album),
-                                Text(Constant.SRC_GALLERY),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                  )
+                    progressMessage == null ? SizedBox(height: 1.0) : Text(progressMessage, style: Theme.of(context).textTheme.headline6),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'Title',
+                      ),
+                      autocorrect: true,
+                      validator: PhotoMemo.validateTitle,
+                      onSaved: con.saveTitle,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'Memo',
+                      ),
+                      autocorrect: true,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 6,
+                      validator: PhotoMemo.validateMemo,
+                      onSaved: con.saveMemo,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Form(
+              key: sharedWithFormKey,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'Add Shared With (email)',
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.person_add),
+                          onPressed: con.addSharedWith,
+                        ),
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 1,
+                      validator: PhotoMemo.validateSharedWith,
+                      onSaved: con.saveSharedWith,
+                    ),
+                  ),
                 ],
               ),
-              progressMessage == null ? SizedBox(height: 1.0) : Text(progressMessage, style: Theme.of(context).textTheme.headline6),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Title',
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(40.0, 0.0, 60.0, 0.0),
+              child: ListView.builder(
+                itemCount: sharedWithList.length ==  null ? 0 : sharedWithList.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) => Container(
+                  child: Row(
+                    children: [
+                      Text(sharedWithList[index], style: TextStyle(fontSize: 16.0)),
+                      Spacer(),
+                      IconButton(icon: Icon(Icons.person_remove), onPressed: () => con.deleteSharedWith(index)),
+                    ],
+                  ),
                 ),
-                autocorrect: true,
-                validator: PhotoMemo.validateTitle,
-                onSaved: con.saveTitle,
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Memo',
-                ),
-                autocorrect: true,
-                keyboardType: TextInputType.multiline,
-                maxLines: 6,
-                validator: PhotoMemo.validateMemo,
-                onSaved: con.saveMemo,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Shared With (comma seperated email list)',
-                ),
-                autocorrect: false,
-                keyboardType: TextInputType.emailAddress,
-                maxLines: 2,
-                validator: PhotoMemo.validateSharedWith,
-                onSaved: con.saveSharedWith,
-              ),
-            ],
-          ),
+            ),
+            SizedBox(height: 100.0),
+          ],
         ),
       ),
     );
@@ -220,8 +259,23 @@ class _Controller {
   }
 
   void saveSharedWith(String value) {
-    if (value.trim().length != 0) {
-      tempMemo.sharedWith = value.split(RegExp('(,| )')).map((e) => e.trim()).toList();
-    }
+    state.sharedWithList.add(value);
+    tempMemo.sharedWith.add(value);
+
+    // Clear input field
+    this.state.sharedWithFormKey.currentState.reset();
+    state.render(() {});
+  }
+
+  void addSharedWith() {
+    if (!state.sharedWithFormKey.currentState.validate()) return;
+
+    this.state.sharedWithFormKey.currentState.save();
+  }
+
+  void deleteSharedWith(int index) async {
+    state.sharedWithList.removeAt(index);
+    tempMemo.sharedWith.removeAt(index);
+    state.render(() {});
   }
 }
